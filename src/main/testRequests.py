@@ -1,15 +1,18 @@
 import requests
 
-BASE = "http://127.0.0.1:5000/"
+BASE = "http://127.0.0.1:8765/"
 
-data = [{"likes": 78, "name": "Video 1", "views": 10000},
-        {"likes": 1023, "name": "Video 2", "views": 79083},
-        {"likes": 2341, "name": "Video_3", "views": 323}]
+data = [{"description": "First test phone number", "spam": True},
+        {"description": "Second test phone number", "spam": False}]
 
 for i, videoData in enumerate(data):
-    response = requests.put(BASE + "video/" + str(i), videoData)
+    response = requests.put(BASE + "api/number/" + str(i), videoData)
+    response_status = response.status_code
+    response_body = response.content
+    print(f"response_status: {response_status}, response body: {response_body}")
     print(response.json())
 
+'''
 response = requests.delete(BASE + "delete/0")
 print(response)
 
@@ -17,3 +20,4 @@ input()
 
 response = requests.get(BASE + "video/2")
 print(response.json())
+'''
