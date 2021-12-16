@@ -1,6 +1,6 @@
 import requests
 
-BASE = "http://127.0.0.1:8765/"
+BASE = "http://127.0.0.1:8080/"
 
 data = [{"description": "First test phone number", "spam": True},
         {"description": "Second test phone number", "spam": False}]

@@ -89,5 +89,5 @@ api.add_resource(Number, "/api/number/<int:phone_number>")
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=8765)
+    app.run(debug=True, port=8080)
     db.create_all()
