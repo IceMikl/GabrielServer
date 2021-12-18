@@ -1,16 +1,16 @@
 version: '3.3'
 services:
 
-  #main:
-  #  build: .
-  #  depends_on:
-  #    - postgres_db
+  main:
+    build: .
+    depends_on:
+      - postgres_db
   #  volumes:
   #    - ./:/usr/src/app:ro
-  #  ports:
-  #    - 8080:8080
-  #  env_file:
-  #    - .env
+    ports:
+      - 8080:8080
+    env_file:
+      - .env
 
   postgres_db:
     image: postgres:14
@@ -19,7 +19,7 @@ services:
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=database
+      - POSTGRES_DB=postgres_db
     #volumes:
     #  - postgres_db_volume:/var/lib/postgresql/data
 
