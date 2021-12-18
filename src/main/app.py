@@ -9,9 +9,10 @@ from config import config
 app = Flask(__name__)
 api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_CONNECTION_URI
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
+
 
 
 class NumberModel(db.Model):
@@ -91,6 +92,14 @@ class Number(Resource):
 api.add_resource(Number, "/api/number/<int:phone_number>")
 
 
+
 if __name__ == "__main__":
-    app.run(debug=True, port=8080, host="0.0.0.0")
     db.create_all()
+    app.run(debug=True, port=8080, host="0.0.0.0")
+    test_number_1 = NumberModel(phone_number='123', description='test number', spam=False)
+    test_number_2 = NumberModel(phone_number='143', description='test number', spam=False)
+    db.session.add(test_number_1)
+    db.session.add(test_number_2)
+    db.session.commit()
+
+    print(NumberModel.query_all())

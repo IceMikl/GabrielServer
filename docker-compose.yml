@@ -1,36 +1,27 @@
-version: '3.9'
+version: '3.3'
 services:
 
-  main:
-    build: .
-    depends_on:
-      - postgres_db
-    volumes:
-      - ./:/usr/src/app:ro
-    ports:
-      - 8080:8080
-    #env_file:
-    #  - ./.ev
-    environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_HOST=postgres_db
-      - POSTGRES_PORT=5678
-      - POSTGRES_DB=postgres_db
+  #main:
+  #  build: .
+  #  depends_on:
+  #    - postgres_db
+  #  volumes:
+  #    - ./:/usr/src/app:ro
+  #  ports:
+  #    - 8080:8080
+  #  env_file:
+  #    - .env
 
   postgres_db:
-    image: postgres:latest
-    container_name: database_db_container
+    image: postgres:14
     ports:
-      - 5678:5678
+      - 5432:5432
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=password
-      - POSTGRES_HOST=postgres_db
-      - POSTGRES_PORT=5678
-      - POSTGRES_DB=postgres_db
-    volumes:
-      - postgres_db_volume:/var/lib/postgresql/data
+      - POSTGRES_DB=database
+    #volumes:
+    #  - postgres_db_volume:/var/lib/postgresql/data
 
 
 volumes:
