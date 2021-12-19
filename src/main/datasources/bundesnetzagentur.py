@@ -11,7 +11,7 @@ import re
 
 class Bundesnetzagentur(scrapy.Spider):
 
-    FILENAME = 'datasources/resources/bundesnetzagentur_blocked_numbers.json'
+    FILENAME = 'src/main/datasources/resources/bundesnetzagentur_blocked_numbers.json'
 
     name = "bundesnetzagentur"
     custom_settings = {
@@ -66,7 +66,6 @@ class Bundesnetzagentur(scrapy.Spider):
 
     def get_data_from_file(self):
         print(os.listdir("."))
-        #with open(self.FILENAME, 'r') as f:
         with open(self.FILENAME, 'r') as f:
             data = json.load(f)
             f.close()
@@ -86,7 +85,7 @@ class Bundesnetzagentur(scrapy.Spider):
 
 
     def get_actual_data(self):
-        self.scrap_data()
+        #self.scrap_data()
         return self.get_data_from_file()
 
 

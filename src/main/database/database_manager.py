@@ -4,6 +4,7 @@ import time
 import logging as logger
 
 #from src.main.database.models import NumberModel
+print("import src.main.app as app")
 import src.main.app as app
 from src.main.datasources.datasource_manager import DatasourceManager
 
@@ -37,7 +38,6 @@ class DatabaseManager:
             new_number = app.NumberModel(phone_number=phone_number, description=description, suspicious=suspicious)
             self.database.session.add(new_number)
         else:
-            print("already exists")
             number.description = description
             number.suspicious = suspicious
         self.database.session.commit()

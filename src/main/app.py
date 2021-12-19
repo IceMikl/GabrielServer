@@ -1,27 +1,15 @@
 import os
+import sys
+sys.path.append("/")
+print(sys.path)
 
 from flask import Flask
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 
+import src.main.database.database_manager as db_manager
+
 from config import config
-
-#from src.main.resource_handlers.number_resource_handler import NumberResourceHandler
-from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
-number_put_args = reqparse.RequestParser()
-number_put_args.add_argument("description", type=str, help="Description of the number is required", required=True)
-number_put_args.add_argument("spam", type=bool, help="Number is a spam", required=False, default=False)
-
-number_update_args = reqparse.RequestParser()
-number_update_args.add_argument("description", type=str, help="Description of the number is required")
-number_update_args.add_argument("spam", type=bool, help="Number is a spam",)
-
-resource_fields = {
-	'phone_number': fields.String,
-    'description': fields.String,
-	'spam': fields.Boolean
-}
-
 
 
 app = Flask(__name__)
@@ -32,16 +20,31 @@ db = SQLAlchemy(app)
 
 # See important note below
 #from src.main.database.models import NumberModel
+
 class NumberModel(db.Model):
 
     phone_number = db.Column(db.String(12), primary_key=True)
     description = db.Column(db.String(500), nullable=False)
-    spam = db.Column(db.Boolean, nullable=False)
+    suspicious = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
-        return f"Number(phone_number = {self.number}, description = {self.description}, spam = {self.spam})"
+        return f"Number(phone_number = {self.phone_number}, description = {self.description}, suspicious = {self.suspicious})"
 
 
+from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
+number_put_args = reqparse.RequestParser()
+number_put_args.add_argument("description", type=str, help="Description of the number is required", required=True)
+number_put_args.add_argument("suspicious", type=int, help="Number is a suspicious", required=False, default=False)
+
+number_update_args = reqparse.RequestParser()
+number_update_args.add_argument("description", type=str, help="Description of the number is required")
+number_update_args.add_argument("suspicious", type=int, help="Number is suspicious",)
+
+resource_fields = {
+	'phone_number': fields.String,
+    'description': fields.String,
+	'suspicious': fields.Integer
+}
 
 class NumberResourceHandler(Resource):
 
@@ -60,7 +63,7 @@ class NumberResourceHandler(Resource):
             abort(409, message="Phone number already exists!")
 
         number = NumberModel(phone_number=phone_number, description=args['description'],
-                             spam=args['spam'])
+                             suspicious=args['suspicious'])
         db.session.add(number)
         db.session.commit()
         return number, 201
@@ -73,9 +76,9 @@ class NumberResourceHandler(Resource):
             abort(404, message="Phone number doesn't exist, cannot update")
 
         if args['description']:
-            number.views = args['description']
-        if args['spam']:
-            number.likes = args['spam']
+            number.description = args['description']
+        if args['suspicious']:
+            number.suspicious = args['suspicious']
 
         db.session.commit()
 
@@ -89,51 +92,38 @@ class NumberResourceHandler(Resource):
         db.session.commit()
         return 'Successfully deleted!', 204
 
-api.add_resource(NumberResourceHandler, "/api/number/<int:phone_number>")
+
+#from src.main.resource_handlers.number_resource_handler import NumberResourceHandler
+
+api.add_resource(NumberResourceHandler, "/api/number/<string:phone_number>")
 
 
-
-db.create_all()
-db.session.commit()
-
-'''
-app = Flask(__name__)
-api = Api(app)
-
-class Number(Resource):
-
-    def get(self, phone_number):
-        return {'spam': True}, 200
-
-api.add_resource(Number, "/api/number/<int:phone_number>")
-
-if __name__ == "__main__":
-    app.run(debug=True, port=8080, host="0.0.0.0")
-'''
-@app.before_first_request
-def create_tables():
+def initialize_database():
+    print("initialize_database")
+    db.drop_all()
     db.create_all()
+    add_data_to_database()
 
-if __name__ == "__main__":
-    if not os.path.exists('db.sqlite'):
-        db.create_all()
-    app.run(debug=True, port=8080, host="0.0.0.0")
-    test_number_1 = NumberModel(phone_number='123', description='test number', spam=False)
-    test_number_2 = NumberModel(phone_number='143', description='test number', spam=False)
+
+def add_data_to_database():
+    '''
+    test_number_1 = NumberModel(phone_number='10', description='test number', suspicious=5)
+    test_number_2 = NumberModel(phone_number='11', description='test number', suspicious=5)
     db.session.add(test_number_1)
     db.session.add(test_number_2)
     db.session.commit()
+    print(NumberModel.query.all())
+    '''
+    print("add_data_to_database")
+    database_manager = db_manager.DatabaseManager(database=db)
+    database_manager.add_data_from_bundesnetzagentur()
+    #print(NumberModel.query.all())
 
-    print(NumberModel.query_all())
 
-'''
+
 if __name__ == "__main__":
-    app.run(debug=True, port=8080, host="0.0.0.0")
-    #test_number_1 = NumberModel(phone_number='123', description='test number', spam=False)
-    #test_number_2 = NumberModel(phone_number='143', description='test number', spam=False)
-    #db.session.add(test_number_1)
-    #db.session.add(test_number_2)
-    #db.session.commit()
+    print("__name__")
+    print(os.listdir("."))
+    initialize_database()
+    app.run(debug=True, use_reloader=False, port=8080, host="0.0.0.0")
 
-    print(NumberModel.query_all())
-'''
