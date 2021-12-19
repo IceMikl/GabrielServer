@@ -11,7 +11,8 @@ import re
 
 class Bundesnetzagentur(scrapy.Spider):
 
-    FILENAME = 'src/main/datasources/resources/bundesnetzagentur_blocked_numbers.json'
+    PATH_TO_SCRIPT = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+    PATH_TO_FILE = PATH_TO_SCRIPT + '/resources/bundesnetzagentur_blocked_numbers.json'
 
     name = "bundesnetzagentur"
     custom_settings = {
@@ -58,18 +59,18 @@ class Bundesnetzagentur(scrapy.Spider):
 
     def write_data_to_file(self, new_data):
         print(os.listdir("."))
-        with open(self.FILENAME, 'wb') as f:
+        with open(self.PATH_TO_FILE, 'wb') as f:
             f.write(json.dumps(new_data, indent=2).encode('utf-8'))
             f.close()
-        logger.info("Data were written into file")
+        logger.info(f"Data were written into file: {self.PATH_TO_FILE}")
 
 
     def get_data_from_file(self):
         print(os.listdir("."))
-        with open(self.FILENAME, 'r') as f:
+        with open(self.PATH_TO_FILE, 'r') as f:
             data = json.load(f)
             f.close()
-        logger.info("Data were retrieved from file")
+        logger.info(f'Data were readed from the file: {self.PATH_TO_FILE}')
         return data
 
 
@@ -85,6 +86,7 @@ class Bundesnetzagentur(scrapy.Spider):
 
 
     def get_actual_data(self):
+        #TODO: activate data scraping
         #self.scrap_data()
         return self.get_data_from_file()
 
