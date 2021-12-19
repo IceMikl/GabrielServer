@@ -7,6 +7,6 @@ RUN pip3 install -r requirements.txt
 #RUN pip3 install psycor
 
 COPY src src
-COPY resources resources
+COPY src/main/data_obtainer/resources resources
 
 CMD ["python3", "src/main/app.py"]
