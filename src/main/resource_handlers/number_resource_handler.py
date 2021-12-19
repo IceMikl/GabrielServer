@@ -5,7 +5,6 @@ from src.main.database.models import NumberModel
 from src.main.app import db
 
 
-
 number_put_args = reqparse.RequestParser()
 number_put_args.add_argument("description", type=str, help="Description of the number is required", required=True)
 number_put_args.add_argument("spam", type=bool, help="Number is a spam", required=False, default=False)

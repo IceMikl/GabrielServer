@@ -3,8 +3,8 @@ services:
 
   main:
     build: .
-    depends_on:
-      - postgres_db
+    #depends_on:
+    #  - postgres_db
   #  volumes:
   #    - ./:/usr/src/app:ro
     ports:
@@ -12,14 +12,14 @@ services:
     env_file:
       - .env
 
-  postgres_db:
-    image: postgres:14
-    ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=postgres_db
+  #postgres_db:
+  #  image: postgres:14
+  #  ports:
+  #    - 5432:5432
+  #  environment:
+  #    - POSTGRES_USER=admin
+  #    - POSTGRES_PASSWORD=password
+  #    - POSTGRES_DB=postgres_db
     #volumes:
     #  - postgres_db_volume:/var/lib/postgresql/data
 

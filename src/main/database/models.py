@@ -8,7 +8,3 @@ class NumberModel(db.Model):
 
     def __repr__(self):
         return f"Number(phone_number = {self.number}, description = {self.description}, spam = {self.spam})"
-
-
-if __name__ == '__main__':
-    db.create_all()

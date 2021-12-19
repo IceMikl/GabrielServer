@@ -13,6 +13,6 @@ password = os.environ['POSTGRES_PASSWORD']
 host = os.environ['POSTGRES_HOST']
 port = os.environ['POSTGRES_PORT']
 
-DB_CONNECTION_URI = f'postgresql://{user}:{password}@{host}:{port}/{database}'
+#DB_CONNECTION_URI = f'postgresql://{user}:{password}@{host}:{port}/{database}'
+DB_CONNECTION_URI = 'sqlite:///database.db'
 print(f"DB_CONNECTION_URI: {DB_CONNECTION_URI}")
-#DB_CONNECTION_URI = 'sqlite:///database.db'
