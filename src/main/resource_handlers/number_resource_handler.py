@@ -1,4 +1,4 @@
-
+'''
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 
 from src.main.database.models import NumberModel
@@ -65,3 +65,4 @@ class NumberResourceHandler(Resource):
         db.session.commit()
         return 'Successfully deleted!', 204
 
+'''
