@@ -10,6 +10,4 @@ class NumberModel(app.db.Model):
     def __repr__(self):
         return f"Number(phone_number = {self.phone_number}, description = {self.description}, suspicious = {self.suspicious})"
 
-if __name__ == '__main__':
-    app.db.create_all()
 

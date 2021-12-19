@@ -5,7 +5,6 @@ import os
 
 import scrapy
 from scrapy.crawler import CrawlerProcess
-from datetime import date
 import re
 
 
@@ -58,7 +57,6 @@ class Bundesnetzagentur(scrapy.Spider):
 
 
     def write_data_to_file(self, new_data):
-        print(os.listdir("."))
         with open(self.PATH_TO_FILE, 'wb') as f:
             f.write(json.dumps(new_data, indent=2).encode('utf-8'))
             f.close()
@@ -66,7 +64,6 @@ class Bundesnetzagentur(scrapy.Spider):
 
 
     def get_data_from_file(self):
-        print(os.listdir("."))
         with open(self.PATH_TO_FILE, 'r') as f:
             data = json.load(f)
             f.close()
