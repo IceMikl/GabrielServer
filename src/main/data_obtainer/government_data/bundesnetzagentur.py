@@ -52,7 +52,7 @@ class Bundesnetzagentur(scrapy.Spider):
 
     def write_new_data_to_file(self, new_data):
         current_date = self.get_current_date_as_string()
-        filename = f'resources/bundesnetzagentur_{current_date}.json'
+        filename = f'resources/bundesnetzagentur_blocked_numbers_{current_date}.json'
         with open(filename, 'wb') as f:
             f.write(json.dumps(new_data, indent=2).encode('utf-8'))
 
