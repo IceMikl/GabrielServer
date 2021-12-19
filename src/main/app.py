@@ -1,6 +1,8 @@
 import os
 import sys
-sys.path.append("/")
+
+if("/" not in sys.path):
+    sys.path.append("/")
 print(sys.path)
 
 from flask import Flask
