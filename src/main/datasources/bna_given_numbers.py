@@ -32,8 +32,6 @@ class BNAGivenNumbers:
                     json_object['phone_block_from'] = row[2]
                     json_object['phone_block_from'] = row[3]
                     json_object['block_size'] = row[4]
-                    if(row[4] != '1000'):
-                        print(row[4])
                     json_object['phone_provider'] = row[6]
                     line_count += 1
                     json_data.append(json_object)
