@@ -1,16 +1,15 @@
-'''
-from src.main.app import db
 
-class NumberModel(db.Model):
+import src.main.app as app
 
-    phone_number = db.Column(db.String(12), primary_key=True)
-    description = db.Column(db.String(500), nullable=False)
-    spam = db.Column(db.Boolean, nullable=False)
+class NumberModel(app.db.Model):
+
+    phone_number = app.db.Column(app.db.String(12), primary_key=True)
+    description = app.db.Column(app.db.String(500), nullable=False)
+    suspicious = app.db.Column(app.db.Integer, nullable=False)
 
     def __repr__(self):
-        return f"Number(phone_number = {self.number}, description = {self.description}, spam = {self.spam})"
+        return f"Number(phone_number = {self.phone_number}, description = {self.description}, suspicious = {self.suspicious})"
 
 if __name__ == '__main__':
-    db.create_all()
+    app.db.create_all()
 
-'''

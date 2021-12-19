@@ -3,9 +3,9 @@ import re
 import time
 import logging as logger
 
-#from src.main.database.models import NumberModel
+import src.main.database.models as db_models
 print("import src.main.app as app")
-import src.main.app as app
+#import src.main.app as app
 from src.main.datasources.datasource_manager import DatasourceManager
 
 
@@ -33,9 +33,9 @@ class DatabaseManager:
 
 
     def put_number(self, phone_number, description, suspicious):
-        number = app.NumberModel.query.filter_by(phone_number=phone_number).first()
+        number = db_models.NumberModel.query.filter_by(phone_number=phone_number).first()
         if not number:
-            new_number = app.NumberModel(phone_number=phone_number, description=description, suspicious=suspicious)
+            new_number = db_models.NumberModel(phone_number=phone_number, description=description, suspicious=suspicious)
             self.database.session.add(new_number)
         else:
             number.description = description

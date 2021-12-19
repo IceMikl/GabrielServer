@@ -20,18 +20,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_CONNECTION_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# See important note below
-#from src.main.database.models import NumberModel
-
-class NumberModel(db.Model):
-
-    phone_number = db.Column(db.String(12), primary_key=True)
-    description = db.Column(db.String(500), nullable=False)
-    suspicious = db.Column(db.Integer, nullable=False)
-
-    def __repr__(self):
-        return f"Number(phone_number = {self.phone_number}, description = {self.description}, suspicious = {self.suspicious})"
-
+# import database models
+import src.main.database.models as db_models
 
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 number_put_args = reqparse.RequestParser()
@@ -52,7 +42,7 @@ class NumberResourceHandler(Resource):
 
     @marshal_with(resource_fields)
     def get(self, phone_number):
-        result = NumberModel.query.filter_by(phone_number=phone_number).first()
+        result = db_models.NumberModel.query.filter_by(phone_number=phone_number).first()
         if not result:
             abort(404, message="Could not find such phone number!")
         return result
@@ -60,11 +50,11 @@ class NumberResourceHandler(Resource):
     @marshal_with(resource_fields)
     def put(self, phone_number):
         args = number_put_args.parse_args()
-        number = NumberModel.query.filter_by(phone_number=phone_number).first()
+        number = db_models.NumberModel.query.filter_by(phone_number=phone_number).first()
         if number:
             abort(409, message="Phone number already exists!")
 
-        number = NumberModel(phone_number=phone_number, description=args['description'],
+        number = db_models.NumberModel(phone_number=phone_number, description=args['description'],
                              suspicious=args['suspicious'])
         db.session.add(number)
         db.session.commit()
@@ -73,7 +63,7 @@ class NumberResourceHandler(Resource):
     @marshal_with(resource_fields)
     def update(self, phone_number):
         args = number_update_args.parse_args()
-        number = NumberModel.query.filter_by(phone_number=phone_number).first()
+        number = db_models.NumberModel.query.filter_by(phone_number=phone_number).first()
         if not number:
             abort(404, message="Phone number doesn't exist, cannot update")
 
@@ -87,7 +77,7 @@ class NumberResourceHandler(Resource):
         return number
 
     def delete(self, phone_number):
-        number = NumberModel.query.filter_by(phone_number=phone_number).first()
+        number = db_models.NumberModel.query.filter_by(phone_number=phone_number).first()
         if not number:
             abort(404, message="Could not find such phone number!")
         db.session.delete(number)
