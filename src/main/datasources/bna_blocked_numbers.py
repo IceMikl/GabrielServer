@@ -8,7 +8,7 @@ from scrapy.crawler import CrawlerProcess
 import re
 
 
-class Bundesnetzagentur(scrapy.Spider):
+class BNABlockedNumbers(scrapy.Spider):
 
     PATH_TO_SCRIPT = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
     PATH_TO_FILE = PATH_TO_SCRIPT + '/resources/bundesnetzagentur_blocked_numbers.json'
@@ -78,14 +78,15 @@ class Bundesnetzagentur(scrapy.Spider):
 
     def scrap_data(self):
         process = CrawlerProcess()
-        process.crawl(Bundesnetzagentur)
+        process.crawl(BNABlockedNumbers)
         process.start()
 
 
-    def get_actual_data(self):
+    def get_latest_data(self):
         #TODO: activate data scraping
         #self.scrap_data()
         return self.get_data_from_file()
+
 
 
 

@@ -17,7 +17,7 @@ class DatabaseManager:
 
 
     def add_data_from_bundesnetzagentur(self):
-        actual_data = self.datasource_manager.scrap_data_from_bundesnetzagentur()
+        actual_data = self.datasource_manager.get_data_from_bundesnetzagentur_blocked_numbers()
         print(actual_data)
         start_time = time.time()
         for json_number_object in actual_data:
