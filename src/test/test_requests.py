@@ -6,7 +6,7 @@ data = [{"description": "First test phone number", "spam": True},
         {"description": "Second test phone number", "spam": False}]
 
 for i, number_data in enumerate(data):
-    response = requests.put(BASE + "api/number/" + str(i), number_data)
+    response = requests.put(BASE + "api/number/1" + str(i), number_data)
     response_status = response.status_code
     response_body = response.content
     print(f"response_status: {response_status}, response body: {response_body}")
