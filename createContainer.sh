@@ -1,6 +1,6 @@
 #!/bin/bash
-sudo docker build -t twilio_server_image .
-sudo docker container stop twilio_server_container
-sudo docker rm twilio_server_container
-sudo docker create --name twilio_server_container --publish 8080:8080 twilio_server_image
-sudo docker start twilio_server_container -a
+sudo docker build -t multiple_containers_image .
+sudo docker container stop multiple_containers
+sudo docker rm multiple_containers
+sudo docker create --name multiple_containers --publish 8080:8080 multiple_containers_image
+sudo docker start multiple_containers -a

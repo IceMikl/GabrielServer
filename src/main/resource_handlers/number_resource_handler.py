@@ -1,9 +1,10 @@
 
-from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
+#from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 
-import src.main.database.models as db_models
-from src.main.app import db
+#import src.main.database.models as db_models
+#from src.main.app import db
 
+'''
 
 number_put_args = reqparse.RequestParser()
 number_put_args.add_argument("description", type=str, help="Description of the number is required", required=True)
@@ -23,7 +24,9 @@ class NumberResourceHandler(Resource):
 
     @marshal_with(resource_fields)
     def get(self, phone_number):
-        result = db_models.NumberModel.query.filter_by(phone_number=phone_number).first()
+        #TODO: implement GET resource handler for BlockedNumbers
+        result = ''
+        #result = db_models.NumberModel.query.filter_by(phone_number=phone_number).first()
         if not result:
             abort(404, message="Could not find such phone number!")
         return result
@@ -64,4 +67,4 @@ class NumberResourceHandler(Resource):
         db.session.delete(number)
         db.session.commit()
         return 'Successfully deleted!', 204
-
+'''
