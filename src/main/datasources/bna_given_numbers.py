@@ -1,23 +1,30 @@
 import csv
+import json
 import os
+import logging
 
 
 class BNAGivenNumbers:
 
     PATH_TO_SCRIPT = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
-    PATH_TO_FILE = PATH_TO_SCRIPT + '/resources/bundesnetzagentur_number_blocks.csv'
+    PATH_TO_CSV_FILE = PATH_TO_SCRIPT + '/resources/bundesnetzagentur_given_number_blocks.csv'
+    #PATH_TO_JSON_FILE = PATH_TO_SCRIPT + '/resources/bundesnetzagentur_given_number_blocks.json'
+    PATH_TO_JSON_FILE = PATH_TO_SCRIPT + '/resources/bundesnetzagentur_given_number_blocks_test.json'
+
 
     def __init__(self):
         pass
 
 
-    def get_given_number_blocks(self):
-        return self.parse_csv_file()
+    def get_given_number_blocks(self, parse_given_numbers_csv):
+        if(parse_given_numbers_csv):
+            self.parse_csv_file()
+        return self.read_json_file()
 
 
     def parse_csv_file(self):
         json_data = []
-        with open(self.PATH_TO_FILE) as csv_file:
+        with open(self.PATH_TO_CSV_FILE) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=';')
             line_count = 0
             headers = []
@@ -30,10 +37,25 @@ class BNAGivenNumbers:
                     json_object['area_code'] = row[0]
                     json_object['place_name'] = row[1]
                     json_object['phone_block_from'] = row[2]
-                    json_object['phone_block_from'] = row[3]
+                    json_object['phone_block_to'] = row[3]
                     json_object['block_size'] = row[4]
                     json_object['phone_provider'] = row[6]
                     line_count += 1
                     json_data.append(json_object)
-            print(f'Processed {line_count} lines.')
+            logging.info(f'Processed {line_count} lines.')
+        self.write_to_json_file(json_data)
         return json_data
+
+
+    def write_to_json_file(self, json_data):
+        with open(self.PATH_TO_JSON_FILE, 'wb') as f:
+            f.write(json.dumps(json_data, indent=2).encode('utf-8'))
+            f.close()
+
+
+    def read_json_file(self):
+        data = {}
+        with open(self.PATH_TO_JSON_FILE, 'r') as f:
+            data = json.load(f)
+            f.close()
+        return data
