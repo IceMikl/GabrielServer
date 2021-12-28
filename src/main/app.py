@@ -56,14 +56,15 @@ def create_database():
 
 def test_database():
     print('asdf')
-    blocked_number = BlockedNumber(phone_number="123", description="Some description", suspicious='9')
+    blocked_number = BlockedNumber(phone_number="123", description="Some description", suspicious=9)
     database_manager = db_manager.DatabaseManager.get_instance()
     db_session = database_manager.create_db_session()
     print(f'db_session: {db_session}')
     db_session.add(blocked_number)
     db_session.commit()
 
-    print(db_session.query(BlockedNumber).filter_by(phone_number='123').first())
+    print(db_session.query(BlockedNumber).all())
+    db_session.close()
 
 
 if __name__ == "__main__":
