@@ -16,8 +16,8 @@ class BNAGivenNumbers:
         pass
 
 
-    def get_given_number_blocks(self, parse_given_numbers_csv):
-        if(parse_given_numbers_csv):
+    def get_given_number_blocks(self, parse_csv_file):
+        if(parse_csv_file):
             self.parse_csv_file()
         return self.read_json_file()
 
@@ -42,7 +42,7 @@ class BNAGivenNumbers:
                     json_object['phone_provider'] = row[6]
                     line_count += 1
                     json_data.append(json_object)
-            logging.info(f'Processed {line_count} lines.')
+            print(f'Processed {line_count} lines.')
         self.write_to_json_file(json_data)
         return json_data
 

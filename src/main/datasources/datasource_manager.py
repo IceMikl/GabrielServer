@@ -13,7 +13,7 @@ class DatasourceManager:
         return bna_block_numbers.get_latest_data(do_scaping)
 
 
-    def get_data_from_bundesnetzagentur_given_numbers(self, parse_given_numbers_csv):
+    def get_data_from_bundesnetzagentur_given_numbers(self, parse_csv_file):
         bna_given_numbers = BNAGivenNumbers()
-        return bna_given_numbers.get_given_number_blocks(parse_given_numbers_csv)
+        return bna_given_numbers.get_given_number_blocks(parse_csv_file=parse_csv_file)
 

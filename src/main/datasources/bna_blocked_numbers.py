@@ -28,7 +28,7 @@ class BNABlockedNumbers(scrapy.Spider):
 
     def parse(self, response):
         new_data = []
-        logger.info("Data from the request: " + str(response))
+        print("Data from the request: " + str(response))
         table_with_numbers = response.css('#content table')
         rows = table_with_numbers.xpath('./tbody/tr')
 
@@ -50,7 +50,7 @@ class BNABlockedNumbers(scrapy.Spider):
                         number_object['action'] = value.xpath('./text()').get()
             if number_object != {}:
                 new_data.append(number_object)
-        logger.info("Data were scraped from Bundesnetzagentur")
+        print("Data were scraped from Bundesnetzagentur")
 
         self.write_data_to_file(new_data=new_data)
 
@@ -59,14 +59,14 @@ class BNABlockedNumbers(scrapy.Spider):
         with open(self.PATH_TO_FILE, 'wb') as f:
             f.write(json.dumps(new_data, indent=2).encode('utf-8'))
             f.close()
-        logger.info(f"Data were written into file: {self.PATH_TO_FILE}")
+        print(f"Data were written into file: {self.PATH_TO_FILE}")
 
 
     def get_data_from_file(self):
         with open(self.PATH_TO_FILE, 'r') as f:
             data = json.load(f)
             f.close()
-        logger.info(f'Data were readed from the file: {self.PATH_TO_FILE}')
+        print(f'Data were readed from the file: {self.PATH_TO_FILE}')
         return data
 
 

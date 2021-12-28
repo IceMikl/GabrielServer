@@ -7,7 +7,7 @@ print(sys.path)
 from flask import Flask
 
 import src.main.database.database_manager as db_manager
-from src.main.database.models import BlockedNumber
+from src.main.database.models import BlockedNumber, GivenNumber
 
 
 app = Flask(__name__)
@@ -19,37 +19,48 @@ def check_phone_number(phone_number):
 
     blocked_number = db_session.query(BlockedNumber).filter_by(phone_number=phone_number).first()
     db_session.close()
-    return {
-               'phone_number': blocked_number.phone_number,
-               'description': blocked_number.description,
-               'suspicious': blocked_number.suspicious
-           }, 200
+    if(not blocked_number):
+        return {
+                   'phone_number': blocked_number.phone_number,
+                   'description': blocked_number.description,
+                   'suspicious': blocked_number.suspicious
+               }, 200
+    else:
+        given_number = db_session.query(GivenNumber).filter_by(phone_number=phone_number).first()
+        db_session.close()
+        if(not given_number):
+            return {
+                       'phone_number': given_number.phone_number,
+                       'description': 'the number is a list of given numbers',
+                       'suspicious': 4
+                   }, 200
+        else:
+            return {
+                       'phone_number': phone_number,
+                       'description': 'the number is not in a list of given numbers',
+                       'suspicious': 6
+                   }, 200
 
 
 
 def start_server():
-    create_database(do_scaping=False, parse_given_numbers_csv=False)
+    create_database(do_scaping=False, parse_csv_file=False)
     app.run(debug=True, use_reloader=False, port=8080, host="0.0.0.0")
 
 
-def create_database(do_scaping=False, parse_given_numbers_csv=False):
+def create_database(do_scaping=False, parse_csv_file=False):
     database_manager = db_manager.DatabaseManager()
     database_manager.add_bna_blocked_numbers(do_scaping=do_scaping)
-    database_manager.add_bundesnetzagentur_given_numbers(parse_given_numbers_csv=parse_given_numbers_csv)
+    database_manager.add_bundesnetzagentur_given_numbers(parse_csv_file=parse_csv_file)
 
     test_database()
 
 
 def test_database():
-    print('asdf')
-    blocked_number = BlockedNumber(phone_number="123", description="Some description", suspicious=9)
     database_manager = db_manager.DatabaseManager.get_instance()
     db_session = database_manager.create_db_session()
-    print(f'db_session: {db_session}')
-    db_session.add(blocked_number)
-    db_session.commit()
-
-    print(db_session.query(BlockedNumber).all())
+    print(db_session.query(BlockedNumber).limit(20).all())
+    print(db_session.query(GivenNumber).limit(20).all())
     db_session.close()
 
 
