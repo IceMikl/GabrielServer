@@ -1,4 +1,3 @@
-
 import logging as logger
 import json
 import os
@@ -21,7 +20,7 @@ class BNABlockedNumbers(scrapy.Spider):
 
     def start_requests(self):
         urls = [
-            'https://www.bundesnetzagentur.de/DE/Vportal/TK/Aerger/Aktuelles/start.html#AnkerMassnahmen'
+            'https://www.bundesnetzagentur.de/DE/Vportal/TK/Aerger/Aktuelles/start.html'
         ]
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
@@ -73,7 +72,7 @@ class BNABlockedNumbers(scrapy.Spider):
 
     def is_a_list_of_numbers(self, value):
         pattern = re.compile("([0-9]+((,)\s*)?)+")
-        return pattern.match(value)
+        return pattern.match(str(value))
 
 
     def scrap_data(self):
@@ -82,11 +81,7 @@ class BNABlockedNumbers(scrapy.Spider):
         process.start()
 
 
-    def get_latest_data(self):
-        #TODO: activate data scraping
-        #self.scrap_data()
+    def get_latest_data(self, do_scaping):
+        if(do_scaping):
+            self.scrap_data()
         return self.get_data_from_file()
-
-
-
-

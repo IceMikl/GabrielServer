@@ -59,8 +59,8 @@ class DatabaseManager:
         db_models.BaseModel.BASE.metadata.create_all(self.engine)
 
 
-    def add_bna_blocked_numbers(self):
-        actual_data = self.datasource_manager.get_data_from_bundesnetzagentur_blocked_numbers()
+    def add_bna_blocked_numbers(self, do_scaping):
+        actual_data = self.datasource_manager.get_data_from_bundesnetzagentur_blocked_numbers(do_scaping)
         start_time = time.time()
         for json_number_object in actual_data:
             if("numbers_list" in json_number_object.keys()):
@@ -88,8 +88,43 @@ class DatabaseManager:
 
     def is_phone_number(self, value):
         pattern = re.compile("(\+)?[0-9]+")
-        return pattern.match(value)
+        return pattern.match(str(value))
 
 
-    def add_bna_given_numbers(self):
-        pass #TODO: implement Bundesnetzagentur given number blocks
+
+    def add_bundesnetzagentur_given_numbers(self, parse_given_numbers_csv):
+        pass
+        '''
+        start_time = time.time()
+        given_numbers = self.datasource_manager.get_data_from_bundesnetzagentur_given_numbers(parse_given_numbers_csv)
+        for number_block in given_numbers:
+            self.put_block(area_code=number_block['area_code'], place_name=number_block['place_name'],
+                           phone_block_from=number_block['phone_block_from'], phone_block_to=number_block['area_code'],
+                           block_size=number_block['block_size'], phone_provider=number_block['phone_provider'])
+        logger.info(f'Given number from Bundesnetzagentur were added to database in {time.time() - start_time} seconds')
+
+    def put_block(self, area_code, place_name, phone_block_from, phone_block_to, block_size, phone_provider):
+        generated_id = self.generate_id(area_code=area_code, place_name=place_name, phone_block_from=phone_block_from,
+                                        phone_block_to=phone_block_to, phone_provider=phone_provider)
+        number_block = app.NumberBlock.query.filter_by(id=generated_id).first()
+        if not number_block:
+            new_number_block = app.NumberBlock(id=generated_id, area_code=area_code, place_name=place_name,
+                                               phone_block_from=phone_block_from, phone_block_to=phone_block_to,
+                                               block_size=block_size, phone_provider=phone_provider)
+            self.database.session.add(new_number_block)
+        else:
+            number_block.area_code = area_code
+            number_block.place_name = place_name
+            number_block.phone_block_from = phone_block_from
+            number_block.phone_block_from = phone_block_from
+            number_block.phone_block_to = phone_block_to
+            number_block.block_size = block_size
+            number_block.phone_provider = phone_provider
+        self.database.session.commit()
+        
+    
+    def generate_id(self, area_code, place_name, phone_block_from, phone_block_to, phone_provider):
+        return str(hash(str(f'{area_code}_{place_name}_{phone_block_from}_{phone_block_to}_{phone_provider}')))
+        
+    '''
+
