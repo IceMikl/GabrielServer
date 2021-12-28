@@ -4,9 +4,13 @@ import time
 import logging as logger
 
 from src.main.config import config
+#from src.main.database.models import
+
 
 import psycopg2
 from psycopg2 import OperationalError
+
+from sqlalchemy import create_engine
 
 #import src.main.database.models as db_models
 #print("import src.main.app as app")
@@ -17,25 +21,37 @@ from src.main.datasources.datasource_manager import DatasourceManager
 class DatabaseManager:
 
     def __init__(self):
-        self.connection = self.establish_connection()
+        #self.establish_connection_to_db()
+        self.connect_to_db_sqlalchemy()
+        self.initialize_db_models()
         self.datasource_manager = DatasourceManager()
 
 
-    def establish_connection(self):
-        connection = None
+    def connect_to_db_sqlalchemy(self):
+        self.engine = None
         try:
-            connection = psycopg2.connect(
+            self.engine = create_engine(config.DB_CONNECTION_URI)
+            print("Connection to Postgres database was established successfully!")
+        except Exception as e:
+            print(f'The error during connection to db: {e}')
+
+    def establish_connection_to_db(self):
+        self.connection = None
+        try:
+            self.connection = psycopg2.connect(
                 database=config.POSTGRES_DB,
                 user=config.POSTGRES_USER,
                 password=config.POSTGRES_PASSWORD,
                 host=config.POSTGRES_HOST,
                 port=config.POSTGRES_PORT,
             )
-            print("Connection to PostgreSQL DB successful")
+            print("Connection to Postgres database was established successfully!")
         except OperationalError as e:
             print(f'The error {e} occurred')
-        return connection
 
+
+    def initialize_db_models(self):
+        pass
 
     def add_bna_blocked_numbers(self):
         pass

@@ -1,6 +1,6 @@
 #!/bin/bash
-sudo docker build -t multiple_containers_image .
-sudo docker container stop multiple_containers
-sudo docker rm multiple_containers
-sudo docker create --name multiple_containers --publish 8080:8080 multiple_containers_image
-sudo docker start multiple_containers -a
+sudo docker build -t multiple_containers_server_image .
+sudo docker container stop icemikl/multiple_containers_server
+sudo docker rm icemikl/multiple_containers_server
+sudo docker create --name icemikl/multiple_containers_server --publish 8080:8080 multiple_containers_server_image
+sudo docker start icemikl/multiple_containers_server -a
