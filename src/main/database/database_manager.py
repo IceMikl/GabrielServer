@@ -35,6 +35,7 @@ class DatabaseManager:
         except Exception as e:
             print(f'The error during connection to db: {e}')
 
+
     def establish_connection_to_db(self):
         self.connection = None
         try:
