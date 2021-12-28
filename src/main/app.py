@@ -8,7 +8,7 @@ from flask import Flask
 #from flask_restful import Api
 
 import src.main.database.database_manager as db_manager
-
+from src.main.database.models import BlockedNumber
 
 
 app = Flask(__name__)
@@ -41,15 +41,29 @@ def add_data_to_database():
     database_manager.add_data_from_bundesnetzagentur()
 '''
 
+def start_server():
+    create_database()
+    app.run(debug=True, use_reloader=False, port=8080, host="0.0.0.0")
+
 
 def create_database():
     database_manager = db_manager.DatabaseManager()
     database_manager.add_bna_blocked_numbers()
     database_manager.add_bna_given_numbers()
 
-def start_server():
-    create_database()
-    app.run(debug=True, use_reloader=False, port=8080, host="0.0.0.0")
+    test_database()
+
+
+def test_database():
+    print('asdf')
+    blocked_number = BlockedNumber(phone_number="123", description="Some description", suspicious='9')
+    database_manager = db_manager.DatabaseManager.get_instance()
+    db_session = database_manager.create_db_session()
+    print(f'db_session: {db_session}')
+    db_session.add(blocked_number)
+    db_session.commit()
+
+    print(db_session.query(BlockedNumber).filter_by(phone_number='123').first())
 
 
 if __name__ == "__main__":

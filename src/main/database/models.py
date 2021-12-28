@@ -1,13 +1,23 @@
+from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, Integer, String, Sequence
 
 
-class NumberModel:
+class BaseModel:
 
-    phone_number = app.db.Column(app.db.String(12), primary_key=True)
-    description = app.db.Column(app.db.String(500), nullable=False)
-    suspicious = app.db.Column(app.db.Integer, nullable=False)
+    BASE = declarative_base()
+
+
+class BlockedNumber(BaseModel.BASE):
+    __tablename__ = 'users'
+
+    id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
+    phone_number = Column(String)
+    description = Column(String)
+    suspicious = Column(String)
 
     def __repr__(self):
-        return f"Number(phone_number = {self.phone_number}, description = {self.description}, suspicious = {self.suspicious})"
+        return f'<BlockedNumber(id={self.id}, phone_number={self.phone_number}, ' \
+               f'description={self.description}, suspicious={self.suspicious})>'
 
 
 

@@ -1,17 +1,17 @@
 version: '3.3'
 services:
 
-  gabriel:
-    build: .
-    container_name: multiple_containers_server
-    depends_on:
-      - postgres_db
-      - adminer
-    restart: always
-    ports:
-    - 8080:8080
-    env_file:
-      - .env
+  #gabriel:
+  #  build: .
+  #  container_name: multiple_containers_server
+  #  depends_on:
+  #    - postgres_db
+  #    - adminer
+  #  restart: always
+  #  ports:
+  #  - 8080:8080
+  #  env_file:
+  #    - .env
 
 
   postgres_db:

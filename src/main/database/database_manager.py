@@ -11,8 +11,10 @@ import psycopg2
 from psycopg2 import OperationalError
 
 from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 
-#import src.main.database.models as db_models
+import src.main.database.models as db_models
+from src.main.database.models import BlockedNumber
 #print("import src.main.app as app")
 #import src.main.app as app
 from src.main.datasources.datasource_manager import DatasourceManager
@@ -20,11 +22,28 @@ from src.main.datasources.datasource_manager import DatasourceManager
 
 class DatabaseManager:
 
+    __instance = None
+
+    @staticmethod
+    def get_instance():
+        if DatabaseManager.__instance == None:
+            DatabaseManager()
+        return DatabaseManager.__instance
+
+
     def __init__(self):
-        #self.establish_connection_to_db()
-        self.connect_to_db_sqlalchemy()
-        self.initialize_db_models()
-        self.datasource_manager = DatasourceManager()
+        if DatabaseManager.__instance != None:
+            raise Exception("This class is a singleton!")
+        else:
+            # self.establish_connection_to_db()
+            self.connect_to_db_sqlalchemy()
+            self.initialize_db_models()
+            self.datasource_manager = DatasourceManager()
+            DatabaseManager.__instance = self
+
+
+    def create_db_session(self):
+        return Session(bind=self.engine)
 
 
     def connect_to_db_sqlalchemy(self):
@@ -52,7 +71,8 @@ class DatabaseManager:
 
 
     def initialize_db_models(self):
-        pass
+        db_models.BaseModel.BASE.metadata.create_all(self.engine)
+
 
     def add_bna_blocked_numbers(self):
         pass
