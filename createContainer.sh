@@ -1,6 +1,6 @@
 #!/bin/bash
-sudo docker build -t twilio_server_image .
-sudo docker container stop twilio_server_container
-sudo docker rm twilio_server_container
-sudo docker create --name twilio_server_container --publish 8888:8080 twilio_server_image
-sudo docker start twilio_server_container -a
+sudo docker build -t multiple_containers_server_image .
+sudo docker container stop icemikl/multiple_containers_server
+sudo docker rm icemikl/multiple_containers_server
+sudo docker create --name icemikl/multiple_containers_server --publish 8080:8080 multiple_containers_server_image
+sudo docker start icemikl/multiple_containers_server -a

@@ -1,28 +1,35 @@
 version: '3.3'
 services:
 
-  main:
-    build: .
-    #depends_on:
-    #  - postgres_db
-  #  volumes:
-  #    - ./:/usr/src/app:ro
-    ports:
-      - 8080:8080
-    env_file:
-      - .env
-
-  #postgres_db:
-  #  image: postgres:14
+  #gabriel:
+  #  build: .
+  #  container_name: multiple_containers_server
+  #  depends_on:
+  #    - postgres_db
+  #    - adminer
+  #  restart: always
   #  ports:
-  #    - 5432:5432
-  #  environment:
-  #    - POSTGRES_USER=admin
-  #    - POSTGRES_PASSWORD=password
-  #    - POSTGRES_DB=postgres_db
-    #volumes:
-    #  - postgres_db_volume:/var/lib/postgresql/data
+  #  - 8080:8080
+  #  env_file:
+  #    - .env
 
 
-volumes:
-  postgres_db_volume:
+  postgres_db:
+    image: postgres:14
+    container_name: postgres_db
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=postgres_db
+
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - 8888:8080
+

@@ -1,18 +1,17 @@
-
 import os
 
-os.environ['POSTGRES_DB'] = 'database'
-os.environ['POSTGRES_USER'] = 'admin'
-os.environ['POSTGRES_PASSWORD'] = 'password'
-os.environ['POSTGRES_HOST'] = 'localhost'
-os.environ['POSTGRES_PORT'] = '5432'
 
-database = os.environ['POSTGRES_DB']
-user = os.environ['POSTGRES_USER']
-password = os.environ['POSTGRES_PASSWORD']
-host = os.environ['POSTGRES_HOST']
-port = os.environ['POSTGRES_PORT']
+os.environ["POSTGRES_USER"] = 'admin'
+os.environ["POSTGRES_PASSWORD"] = 'password'
+os.environ["POSTGRES_HOST"] = 'localhost'
+os.environ["POSTGRES_PORT"] = '5432'
+os.environ["POSTGRES_DB"] = 'postgres_db'
 
-#DB_CONNECTION_URI = f'postgresql://{user}:{password}@{host}:{port}/{database}'
-DB_CONNECTION_URI = 'sqlite:///database.db'
-print(f"DB_CONNECTION_URI: {DB_CONNECTION_URI}")
+
+POSTGRES_USER = os.environ["POSTGRES_USER"]
+POSTGRES_PASSWORD = os.environ["POSTGRES_PASSWORD"]
+POSTGRES_HOST = os.environ["POSTGRES_HOST"]
+POSTGRES_PORT = os.environ["POSTGRES_PORT"]
+POSTGRES_DB = os.environ["POSTGRES_DB"]
+
+DB_CONNECTION_URI = f'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}'
