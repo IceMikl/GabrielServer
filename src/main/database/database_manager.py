@@ -45,13 +45,17 @@ class DatabaseManager:
         return Session(bind=self.engine)
 
 
-    def connect_to_database(self):
+    def connect_to_database(self, attempt=0):
         self.engine = None
         try:
             self.engine = create_engine(config.DB_CONNECTION_URI)
             print("Connection to Postgres database was established successfully!")
         except Exception as e:
-            print(f'The error during connection to db: {e}')
+            print(f'Retry to connect in 5 seconds, attempt # {attempt}')
+            time.sleep(5.0)
+            attempt += 1
+            self.connect_to_database(attempt)
+
 
 
     def initialize_db_models(self):
@@ -75,7 +79,7 @@ class DatabaseManager:
     def put_number(self, phone_number, description, suspicious):
         db_session = self.create_db_session()
         blocked_number = db_session.query(BlockedNumber).filter_by(phone_number=phone_number).first()
-        if(blocked_number != None):
+        if(blocked_number == None):
             new_blocked_number = db_models.BlockedNumber(phone_number=phone_number, description=description, suspicious=suspicious)
             db_session.add(new_blocked_number)
         else:
@@ -112,12 +116,13 @@ class DatabaseManager:
         phone_block_to = number_block_json['phone_block_to']
         for number in range(int(phone_block_from), int(phone_block_to)):
             phone_number = f'0{area_code}{number}'
-            number_block = db_session.query(db_models.GivenNumber).filter_by(phone_number=phone_number).first()
-            if(number_block != None):
-                new_number = db_models.GivenNumber(phone_number=phone_number, area_code=area_code,
+            given_number = db_session.query(db_models.GivenNumber).filter_by(phone_number=phone_number).first()
+            if(given_number == None):
+                new_given_number = db_models.GivenNumber(phone_number=phone_number, area_code=area_code,
                                                          place_name=place_name, phone_provider=phone_provider)
-                numbers_to_add.append(new_number)
+                numbers_to_add.append(new_given_number)
         db_session.add_all(numbers_to_add)
+        db_session.commit()
         db_session.close()
         print(f'Added numbers from 0{area_code}{phone_block_from} to 0{area_code}{phone_block_to} '
               f'in {time.time() - start_time} seconds')

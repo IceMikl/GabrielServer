@@ -30,7 +30,7 @@ def check_phone_number(phone_number):
             return {
                        'phone_number': given_number.phone_number,
                        'description': 'the number is in the list of given numbers',
-                       'suspicious': 4
+                       'suspicious': 1
                    }, 200
         else:
             return {
