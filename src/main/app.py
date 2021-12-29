@@ -18,8 +18,7 @@ def check_phone_number(phone_number):
     db_session = database_manager.create_db_session()
 
     blocked_number = db_session.query(BlockedNumber).filter_by(phone_number=phone_number).first()
-    db_session.close()
-    if(not blocked_number):
+    if(blocked_number != None):
         return {
                    'phone_number': blocked_number.phone_number,
                    'description': blocked_number.description,
@@ -27,17 +26,16 @@ def check_phone_number(phone_number):
                }, 200
     else:
         given_number = db_session.query(GivenNumber).filter_by(phone_number=phone_number).first()
-        db_session.close()
-        if(not given_number):
+        if(given_number != None):
             return {
                        'phone_number': given_number.phone_number,
-                       'description': 'the number is a list of given numbers',
+                       'description': 'the number is in the list of given numbers',
                        'suspicious': 4
                    }, 200
         else:
             return {
                        'phone_number': phone_number,
-                       'description': 'the number is not in a list of given numbers',
+                       'description': 'the number is not in the list of given numbers',
                        'suspicious': 6
                    }, 200
 

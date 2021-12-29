@@ -75,7 +75,7 @@ class DatabaseManager:
     def put_number(self, phone_number, description, suspicious):
         db_session = self.create_db_session()
         blocked_number = db_session.query(BlockedNumber).filter_by(phone_number=phone_number).first()
-        if not blocked_number:
+        if(blocked_number != None):
             new_blocked_number = db_models.BlockedNumber(phone_number=phone_number, description=description, suspicious=suspicious)
             db_session.add(new_blocked_number)
         else:
@@ -113,7 +113,7 @@ class DatabaseManager:
         for number in range(int(phone_block_from), int(phone_block_to)):
             phone_number = f'0{area_code}{number}'
             number_block = db_session.query(db_models.GivenNumber).filter_by(phone_number=phone_number).first()
-            if not number_block:
+            if(number_block != None):
                 new_number = db_models.GivenNumber(phone_number=phone_number, area_code=area_code,
                                                          place_name=place_name, phone_provider=phone_provider)
                 numbers_to_add.append(new_number)
