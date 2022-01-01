@@ -15,5 +15,5 @@ class DatasourceManager:
 
     def get_data_from_bundesnetzagentur_given_numbers(self, parse_csv_file):
         bna_given_numbers = BNAGivenNumbers()
-        return bna_given_numbers.get_given_number_blocks(parse_csv_file=parse_csv_file)
+        return bna_given_numbers.parse_given_number_blocks(parse_csv_file=parse_csv_file)
 
