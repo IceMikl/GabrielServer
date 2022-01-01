@@ -10,9 +10,6 @@ from scrapy.crawler import CrawlerProcess
 
 class BNABlockedNumbers(scrapy.Spider):
 
-    #PATH_TO_SCRIPT = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
-    #PATH_TO_FILE = PATH_TO_SCRIPT + '/resources/bundesnetzagentur_blocked_numbers.json'
-
     PATH_TO_FILE = config.PATH_TO_RESOURCES_FOLDER + 'bundesnetzagentur_blocked_numbers.json'
 
     name = "bundesnetzagentur"

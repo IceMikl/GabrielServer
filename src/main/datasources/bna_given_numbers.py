@@ -7,11 +7,6 @@ from src.main.config import config
 
 class BNAGivenNumbers:
 
-    #PATH_TO_SCRIPT = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
-    #PATH_TO_CSV_FILE = PATH_TO_SCRIPT + '/resources/bundesnetzagentur_given_number_blocks.csv'
-    #PATH_TO_JSON_FILE = PATH_TO_SCRIPT + '/resources/bundesnetzagentur_given_number_blocks.json'
-    #PATH_TO_JSON_FILE = PATH_TO_SCRIPT + '/resources/bundesnetzagentur_given_number_blocks_test.json'
-
     PATH_TO_CSV_FILE = config.PATH_TO_RESOURCES_FOLDER + 'bundesnetzagentur_given_number_blocks.csv'
     #PATH_TO_JSON_FILE = config.PATH_TO_RESOURCES_FOLDER + 'bundesnetzagentur_given_number_blocks.json'
     PATH_TO_JSON_FILE = config.PATH_TO_RESOURCES_FOLDER + 'bundesnetzagentur_given_number_blocks_test.json'
