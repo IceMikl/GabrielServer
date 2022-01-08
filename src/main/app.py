@@ -10,7 +10,7 @@ from flask import Flask
 
 from phone_number_handler import PhoneNumberHandler
 import src.main.database.database_manager as db_manager
-from src.main.database.models import BlockedNumber, GivenNumberBlock
+from src.main.database.models import BlockedNumber, GivenNumberBlock, TellowsNumber
 
 
 app = Flask(__name__)
@@ -71,15 +71,15 @@ def check_phone_number(phone_number):
 
 
 def start_server():
-    create_database(do_scaping=False, parse_csv_file=False)
+    create_database(do_scraping=False, parse_csv_file=False)
     app.run(debug=True, use_reloader=False, port=8080, host="0.0.0.0")
 
 
-def create_database(do_scaping=False, parse_csv_file=True):
+def create_database(do_scraping=False, parse_csv_file=True):
     database_manager = db_manager.DatabaseManager()
-    database_manager.add_bna_blocked_numbers(do_scaping=do_scaping)
+    database_manager.add_bna_blocked_numbers(do_scraping=do_scraping)
     database_manager.add_bundesnetzagentur_given_numbers(parse_csv_file=parse_csv_file)
-
+    database_manager.add_tellowsApi_actual_black_list()
     test_database()
 
 
@@ -88,6 +88,7 @@ def test_database():
     db_session = database_manager.create_db_session()
     print(db_session.query(BlockedNumber).limit(20).all())
     print(db_session.query(GivenNumberBlock).limit(20).all())
+    print(db_session.query(TellowsNumber).limit(20).all())
     db_session.close()
 
 

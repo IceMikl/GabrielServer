@@ -81,7 +81,7 @@ class BNABlockedNumbers(scrapy.Spider):
         process.start()
 
 
-    def get_latest_data(self, do_scaping):
-        if(do_scaping):
+    def get_latest_data(self, do_scraping):
+        if(do_scraping):
             self.scrap_data()
         return self.get_data_from_file()

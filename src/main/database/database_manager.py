@@ -9,7 +9,7 @@ from sqlalchemy import create_engine, and_
 from sqlalchemy.orm import Session
 
 import src.main.database.models as db_models
-from src.main.database.models import BlockedNumber
+from src.main.database.models import BlockedNumber, TellowsNumber, GivenNumberBlock
 
 from src.main.datasources.datasource_manager import DatasourceManager
 
@@ -56,9 +56,9 @@ class DatabaseManager:
         db_models.BaseModel.BASE.metadata.create_all(self.engine)
 
 
-    def add_bna_blocked_numbers(self, do_scaping):
+    def add_bna_blocked_numbers(self, do_scraping):
         counter = 0
-        actual_data = self.datasource_manager.get_data_from_bundesnetzagentur_blocked_numbers(do_scaping)
+        actual_data = self.datasource_manager.get_data_from_bundesnetzagentur_blocked_numbers(do_scraping)
         start_time = time.time()
         for json_number_object in actual_data:
             if("numbers_list" in json_number_object.keys()):
@@ -74,7 +74,7 @@ class DatabaseManager:
         db_session = self.create_db_session()
         blocked_number = db_session.query(BlockedNumber).filter_by(phone_number=phone_number).first()
         if(blocked_number == None):
-            new_blocked_number = db_models.BlockedNumber(phone_number=phone_number, description=description, suspicious=suspicious)
+            new_blocked_number = BlockedNumber(phone_number=phone_number, description=description, suspicious=suspicious)
             db_session.add(new_blocked_number)
         else:
             blocked_number.description = description
@@ -108,17 +108,57 @@ class DatabaseManager:
         phone_provider = number_block_json['phone_provider']
         place_name = number_block_json['place_name']
 
-        given_number_block = db_session.query(db_models.GivenNumberBlock).filter(
-            and_(db_models.GivenNumberBlock.phone_block_from == phone_block_from,
-                 db_models.GivenNumberBlock.phone_block_to == phone_block_to)
+        given_number_block = db_session.query(GivenNumberBlock).filter(
+            and_(GivenNumberBlock.phone_block_from == phone_block_from,
+                 GivenNumberBlock.phone_block_to == phone_block_to)
         ).first()
         if(given_number_block == None):
-            new_given_number_block = db_models.GivenNumberBlock(
+            new_given_number_block = GivenNumberBlock(
                 area_code=area_code, phone_provider=phone_provider,
                 place_name=place_name, phone_block_from=phone_block_from,
                 phone_block_to=phone_block_to)
             number_blocks_to_add.append(new_given_number_block)
         db_session.add_all(number_blocks_to_add)
+        db_session.commit()
+        db_session.close()
+
+
+
+
+
+    def add_tellowsApi_actual_black_list(self):
+        start_time = time.time()
+        tellows_black_list = self.datasource_manager.get_tellows_actual_black_list()
+        for number_json_block in tellows_black_list:
+            self.put_tellows_number(number_json_block=number_json_block)
+        print(f'[INFO] Tellows actual black list was added to database in {time.time() - start_time} seconds')
+
+
+    def put_tellows_number(self, number_json_block):
+        start_time = time.time()
+        db_session = self.create_db_session()
+        list_to_add = []
+
+        number = number_json_block['number'] if 'number' in number_json_block else ''
+        score = number_json_block['score'] if 'score' in number_json_block else 5
+        complains = number_json_block['complains'] if 'complains' in number_json_block else 0
+        country = number_json_block['country'] if 'country' in number_json_block else 0
+        prefix = number_json_block['prefix'] if 'prefix' in number_json_block else 0
+        searches = number_json_block['searches'] if 'searches' in number_json_block else 0
+        caller_type = number_json_block['callertype'] if 'callertype' in number_json_block else ''
+        caller_name = number_json_block['callername'] if 'callername' in number_json_block else ''
+        last_comment = number_json_block['lastcomment'] if 'lastcomment' in number_json_block else ''
+        deeplink = number_json_block['deeplink'] if 'deeplink' in number_json_block else ''
+        caller_typeid = number_json_block['callertypeid'] if 'callertypeid' in number_json_block else 0
+
+        tellows_number = db_session.query(TellowsNumber).filter(TellowsNumber.number==number).first()
+        if(tellows_number == None):
+            new_given_number_block = TellowsNumber(
+                number=number, score = score, complains = complains, country = country, prefix = prefix,
+                searches = searches, caller_type = caller_type, caller_name = caller_name,
+                last_comment = last_comment, deeplink = deeplink, caller_typeid = caller_typeid)
+            list_to_add.append(new_given_number_block)
+        db_session.add_all(list_to_add)
         db_session.commit()
         db_session.close()
 

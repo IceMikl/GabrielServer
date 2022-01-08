@@ -35,3 +35,25 @@ class GivenNumberBlock(BaseModel.BASE):
                f'phone_block_from={self.phone_block_from}, phone_block_to={self.phone_block_to}, ' \
                f'place_name={self.place_name}, phone_provider={self.phone_provider})>'
 
+
+class TellowsNumber(BaseModel.BASE):
+    __tablename__ = 'TellowsNumber'
+
+    id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
+    number = Column(String)
+    score = Column(Integer)
+    complains = Column(Integer)
+    country = Column(Integer)
+    prefix = Column(Integer)
+    searches = Column(Integer)
+    caller_type = Column(String)
+    caller_name = Column(String)
+    last_comment = Column(String)
+    deeplink = Column(String)
+    caller_typeid = Column(Integer)
+
+    def __repr__(self):
+        return f'<TellowsNumber(id={self.id}, number={self.number} score={self.score}, ' \
+               f'complains={self.complains}, country={self.country}, prefix={self.prefix}, ' \
+               f'searches={self.searches}, caller_type={self.caller_type}, caller_name={self.caller_name},' \
+               f' last_comment={self.last_comment}, deeplink={self.deeplink}, caller_typeid={self.caller_typeid})>'

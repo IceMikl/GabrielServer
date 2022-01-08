@@ -1,12 +1,16 @@
+import ast
+import json
+
 import requests
 
+from src.main.config import config
 
 class TellowsAPI:
 
+    PATH_TO_JSON_FILE = config.PATH_TO_RESOURCES_FOLDER + 'tellows_actual_black_list.json'
 
     def __init__(self):
         pass
-
 
 
     def get_actual_black_list(self):
@@ -33,15 +37,27 @@ class TellowsAPI:
         }
         response = requests.get(REQUEST_URL, params=params)
         response_status = response.status_code
-        response_body = response.content
-        print(f"REQUEST_URL: {REQUEST_URL} \n response_status: {response_status} \n response body: {response_body} \n")
+        response_json = '[]'
+        if response_status == 200:
+            response_body = response.content
+            response_json = ast.literal_eval(response_body.decode('utf-8'))
+            self.write_json_to_file(data_to_write=response_json)
+        else:
+            self.write_json_to_file(data_to_write=response_json)
+        return response_json
 
 
 
-    def test_phone_number(self, phone_number_to_test ='07812-1968053101'):
-        REQUEST_URL = f'http://www.tellows.de/basic/num/{phone_number_to_test}?'
+    def write_json_to_file(self, data_to_write):
+        with open(self.PATH_TO_JSON_FILE, 'wb') as f:
+            f.write(json.dumps(data_to_write, indent=2).encode('utf-8'))
+            f.close()
+
+
+    def test_phone_number(self, phone_number='07812-1968053101'):
+        REQUEST_URL = f'http://www.tellows.de/basic/num/{phone_number}?'
         headers = {
-            'xml': '1',
+            'xml': '0',
             'partner': 'test',
             'apikey': 'test123'
         }
@@ -49,4 +65,5 @@ class TellowsAPI:
         response_status = response.status_code
         response_body = response.content
         print(f"REQUEST_URL: {REQUEST_URL} \n response_status: {response_status} \n response body: {response_body} \n")
+        return response_body
 
