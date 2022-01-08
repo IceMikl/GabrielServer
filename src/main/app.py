@@ -10,7 +10,7 @@ from flask import Flask
 
 from phone_number_handler import PhoneNumberHandler
 import src.main.database.database_manager as db_manager
-from src.main.database.models import BlockedNumber, GivenNumberBlock, GivenNumber
+from src.main.database.models import BlockedNumber, GivenNumberBlock
 
 
 app = Flask(__name__)

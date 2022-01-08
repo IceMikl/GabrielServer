@@ -113,11 +113,10 @@ class DatabaseManager:
                  db_models.GivenNumberBlock.phone_block_to == phone_block_to)
         ).first()
         if(given_number_block == None):
-            new_given_number_block = db_models.GivenNumberBlock(area_code=area_code,
-                                                                phone_provider=phone_provider,
-                                                                place_name=place_name,
-                                                                phone_block_from=phone_block_from,
-                                                                phone_block_to=phone_block_to)
+            new_given_number_block = db_models.GivenNumberBlock(
+                area_code=area_code, phone_provider=phone_provider,
+                place_name=place_name, phone_block_from=phone_block_from,
+                phone_block_to=phone_block_to)
             number_blocks_to_add.append(new_given_number_block)
         db_session.add_all(number_blocks_to_add)
         db_session.commit()
