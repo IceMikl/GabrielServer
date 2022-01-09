@@ -19,6 +19,6 @@ class DatasourceManager:
         return bna_given_numbers.parse_given_number_blocks(parse_csv_file=parse_csv_file)
 
 
-    def get_tellows_actual_black_list(self):
+    def get_tellows_actual_black_list(self, make_request=False):
         tellowsApi = TellowsAPI()
-        return tellowsApi.get_actual_black_list()
+        return tellowsApi.get_actual_black_list(make_request=make_request)

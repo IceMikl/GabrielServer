@@ -126,9 +126,9 @@ class DatabaseManager:
 
 
 
-    def add_tellowsApi_actual_black_list(self):
+    def add_tellowsApi_actual_black_list(self, make_request=False):
         start_time = time.time()
-        tellows_black_list = self.datasource_manager.get_tellows_actual_black_list()
+        tellows_black_list = self.datasource_manager.get_tellows_actual_black_list(make_request=make_request)
         for number_json_block in tellows_black_list:
             self.put_tellows_number(number_json_block=number_json_block)
         print(f'[INFO] Tellows actual black list was added to database in {time.time() - start_time} seconds')
