@@ -42,6 +42,13 @@ def check_phone_number(phone_number):
                     phone_number=phone_number, national_number=national_number)
         else:
             answer['area_code'] = answer_area_code_not_found(phone_number=phone_number, national_number=national_number)
+
+        tellows_number = db_session.query(TellowsNumber).filter_by(number=phone_number).first()
+        if tellows_number is not None:
+            answer['tellows_number'] = answer_tellows_number_found(tellows_number=tellows_number)
+        else:
+            answer['tellows_number'] = answer_tellows_number_not_found(
+                phone_number=phone_number, national_number=national_number)
     else:
         answer['phone_number'] = answer_phone_number_not_valid(phone_number=phone_number)
 
@@ -91,7 +98,31 @@ def answer_blocked_number_not_found(phone_number, national_number):
     answer_dict = dict()
     answer_dict['phone_number'] = phone_number
     answer_dict['national_number'] = national_number
-    answer_dict['description'] = 'Area code not found'
+    answer_dict['description'] = 'Blocked number not found'
+    return answer_dict
+
+
+def answer_tellows_number_found(tellows_number):
+    answer_dict = dict()
+    answer_dict['number'] = tellows_number.number
+    answer_dict['score'] = tellows_number.score
+    answer_dict['complains'] = tellows_number.complains
+    answer_dict['country'] = tellows_number.country
+    answer_dict['prefix'] = tellows_number.prefix
+    answer_dict['searches'] = tellows_number.searches
+    answer_dict['caller_type'] = tellows_number.caller_type
+    answer_dict['caller_name'] = tellows_number.caller_name
+    answer_dict['last_comment'] = tellows_number.last_comment
+    answer_dict['deeplink'] = tellows_number.deeplink
+    answer_dict['caller_typeid'] = tellows_number.caller_typeid
+    return answer_dict
+
+
+def answer_tellows_number_not_found(phone_number, national_number):
+    answer_dict = dict()
+    answer_dict['phone_number'] = phone_number
+    answer_dict['national_number'] = national_number
+    answer_dict['description'] = 'Tellows number was not found'
     return answer_dict
 
 
