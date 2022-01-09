@@ -11,3 +11,5 @@ Werkzeug==1.0.1
 Scrapy
 psycopg2-binary
 SQLAlchemy==1.4.29
+phonenumbers==8.12.40
+requests==2.27.0
