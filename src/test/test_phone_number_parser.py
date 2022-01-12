@@ -1,5 +1,5 @@
 
-from src.main.phone_number_handler import PhoneNumberHandler
+from src.main.phone_number_parser import PhoneNumberHandler
 
 
 
