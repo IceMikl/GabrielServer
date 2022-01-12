@@ -7,8 +7,9 @@ print(sys.path)
 
 from sqlalchemy import and_
 from flask import Flask
+from flask_basicauth import BasicAuth
 
-from phone_number_handler import PhoneNumberHandler
+from phone_number_parser import PhoneNumberHandler
 import src.main.database.database_manager as db_manager
 from src.main.database.models import BlockedNumber, GivenNumberBlock, TellowsNumber
 
@@ -18,7 +19,10 @@ from src.main.server.request_handlers.phone_numbers_handler import phone_numbers
 app = Flask(__name__)
 app.register_blueprint(phone_numbers, url_prefix='/api/phone_numbers/')
 
-
+app.config['BASIC_AUTH_USERNAME'] = 'user'
+app.config['BASIC_AUTH_PASSWORD'] = 'gabriel_user'
+app.config['BASIC_AUTH_FORCE'] = True
+basic_auth = BasicAuth(app)
 
 
 def start_server():

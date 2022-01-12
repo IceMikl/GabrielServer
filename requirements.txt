@@ -13,3 +13,4 @@ psycopg2-binary
 SQLAlchemy==1.4.29
 phonenumbers==8.12.40
 requests==2.27.0
+Flask-BasicAuth==0.2.0
