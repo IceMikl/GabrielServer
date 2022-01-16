@@ -8,7 +8,7 @@ class BaseModel:
 
 
 class BlockedNumber(BaseModel.BASE):
-    __tablename__ = 'BlockedNumber'
+    __tablename__ = 'BLOCKED_NUMBER'
 
     id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
     phone_number = Column(String)
@@ -21,7 +21,7 @@ class BlockedNumber(BaseModel.BASE):
 
 
 class GivenNumberBlock(BaseModel.BASE):
-    __tablename__ = 'GivenNumberBlock'
+    __tablename__ = 'GIVEN_NUMBER_BLOCK'
 
     id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
     area_code = Column(Integer)
@@ -37,7 +37,7 @@ class GivenNumberBlock(BaseModel.BASE):
 
 
 class TellowsNumber(BaseModel.BASE):
-    __tablename__ = 'TellowsNumber'
+    __tablename__ = 'TELLOWS_NUMBER'
 
     id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
     number = Column(String)
@@ -60,9 +60,8 @@ class TellowsNumber(BaseModel.BASE):
 
 
 
-
 class AreaCode(BaseModel.BASE):
-    __tablename__ = 'AreaCode'
+    __tablename__ = 'AREA_CODE'
 
     id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
     code = Column(Integer)
@@ -73,3 +72,20 @@ class AreaCode(BaseModel.BASE):
     def __repr__(self):
         return f'<AreaCode(id={self.id}, code={self.code}, place_name={self.place_name}, ' \
                f'activ={self.activ}, country={self.country})>'
+
+
+
+class Request(BaseModel.BASE):
+    __tablename__ = 'REQUEST'
+
+    id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
+    code = Column(Integer)
+    place_name = Column(String)
+    activ = Column(Integer)
+    country = Column(String)
+
+    def __repr__(self):
+        return f'<REQUEST(id={self.id}, code={self.code}, place_name={self.place_name}, ' \
+               f'activ={self.activ}, country={self.country})>'
+
+
