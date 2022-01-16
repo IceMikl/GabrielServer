@@ -1,5 +1,5 @@
 
-from src.main.datasources.news.zeit_online_api import ZeitOnlineApi
+from src.main.datasources.news.zeit_online_news_api import ZeitOnlineApi
 
 
 def test_get_news(keyword='test'):
