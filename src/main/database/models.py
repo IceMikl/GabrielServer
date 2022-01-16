@@ -79,13 +79,35 @@ class Request(BaseModel.BASE):
     __tablename__ = 'REQUEST'
 
     id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
-    code = Column(Integer)
-    place_name = Column(String)
-    activ = Column(Integer)
-    country = Column(String)
+
+    remote_addr = Column(String)
+    base_url = Column(String)
+    content_encoding = Column(String)
+    content_type = Column(String)
+    date = Column(String)
+    data = Column(String)
+    full_path = Column(String)
+    headers = Column(String)
+    host = Column(String)
+    host_url = Column(String)
+    path = Column(String)
+    remote_user = Column(String)
+    scheme = Column(String)
+    url = Column(String)
+    url_charset = Column(String)
+    url_root = Column(String)
+    url_rule = Column(String)
+    user_agent = Column(String)
+    request_time = Column(String)
+
 
     def __repr__(self):
-        return f'<REQUEST(id={self.id}, code={self.code}, place_name={self.place_name}, ' \
-               f'activ={self.activ}, country={self.country})>'
+        return f'<REQUEST(id={self.id}, remote_addr={self.remote_addr}, base_url={self.base_url}, ' \
+               f'content_encoding={self.content_encoding}, content_type = {self.content_type}, date = {self.date}, ' \
+               f'data={self.data}, full_path = {self.full_path}, headers = {self.headers}, ' \
+               f'host={self.host}, host_url = {self.host_url}, path = {self.path}, ' \
+               f'remote_user={self.remote_user}, scheme = {self.scheme}, url = {self.url}, ' \
+               f'url_charset={self.url_charset}, url_root = {self.url_root}, url_rule = {self.url_rule}, ' \
+               f'user_agent={self.user_agent}, request_time = {self.request_time})>'
 
 
