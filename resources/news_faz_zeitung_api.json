@@ -1,0 +1,30 @@
+{
+  "rss": {
+    "@version": "2.0",
+    "@xmlns:atom": "http://www.w3.org/2005/Atom",
+    "@xmlns:media": "http://search.yahoo.com/mrss/",
+    "channel": {
+      "title": "Kriminalit\u00e4t - FAZ.NET",
+      "link": "https://www.faz.net/aktuell/gesellschaft/kriminalitaet/",
+      "description": "Im Ressort finden Sie aktuelle News \u00fcber Verbrechen und Straftaten wie Mord, Raub und Gewalt. Beitr\u00e4ge zu Festnahmen und Gerichtsurteilen.",
+      "copyright": "Copyright 2001-2022 Frankfurter Allgemeine Zeitung GmbH. Alle Rechte vorbehalten.",
+      "category": "Kriminalit\u00e4t - FAZ.NET",
+      "language": "de-de",
+      "docs": "https://www.faz.net/hilfe/services-newsletter-widgets-rss-feeds-mehr/",
+      "generator": "FAZ.NET",
+      "ttl": "5",
+      "lastBuildDate": "Sat, 15 Jan 2022 22:35:53 +0100",
+      "atom:link": {
+        "@href": "https://www.faz.net/rss/aktuell/gesellschaft/kriminalitaet/",
+        "@rel": "self",
+        "@type": "application/rss+xml"
+      },
+      "image": {
+        "title": "Kriminalit\u00e4t - FAZ.NET",
+        "url": "https://www.faz.net/img/fazlogo_ressort.gif",
+        "link": "https://www.faz.net/aktuell/gesellschaft/kriminalitaet/"
+      },
+      "item": []
+    }
+  }
+}
