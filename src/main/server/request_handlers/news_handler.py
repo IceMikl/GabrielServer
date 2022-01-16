@@ -1,10 +1,5 @@
 
 from flask import Blueprint
-from sqlalchemy import and_
-
-from src.main.phone_number_parser import PhoneNumberHandler
-import src.main.database.database_manager as db_manager
-from src.main.database.models import BlockedNumber, GivenNumberBlock, TellowsNumber
 
 from src.main.datasources.datasource_manager import DatasourceManager
 

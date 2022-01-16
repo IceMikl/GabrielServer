@@ -1,7 +1,5 @@
-import os
 
 import phonenumbers
-from phonenumbers import carrier, timezone, geocoder
 import json
 from src.main.config import config
 
