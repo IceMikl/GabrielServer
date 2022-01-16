@@ -18,5 +18,13 @@ def get_news_from_sueddeutsche():
     return actual_news_json, 200
 
 
-d3c1be18dd09c7195e369336b6de2f3b7b6f843fbf2fa092190b
+
+@news.route('/get/faz', methods=['GET'])
+def get_news_from_faz():
+    datasource_manager = DatasourceManager()
+    actual_news_json = datasource_manager.get_faz_news(make_request=True)
+    return actual_news_json, 200
+
+
+
 
