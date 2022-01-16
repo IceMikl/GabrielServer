@@ -7,10 +7,10 @@ import src.main.database.database_manager as db_manager
 from src.main.database.models import BlockedNumber, GivenNumberBlock, TellowsNumber
 
 
-phone_numbers = Blueprint('phone_numbers', __name__)
+numbers = Blueprint('numbers', __name__)
 
 
-@phone_numbers.route('/check_number/<string:phone_number>', methods=['GET'])
+@numbers.route('/check/<string:phone_number>', methods=['GET'])
 def check_phone_number(phone_number):
     db_session = create_db_session()
     phone_number_information = parse_phone_number(phone_number=phone_number)

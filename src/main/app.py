@@ -14,10 +14,13 @@ import src.main.database.database_manager as db_manager
 from src.main.database.models import BlockedNumber, GivenNumberBlock, TellowsNumber
 
 # Blueprints
-from src.main.server.request_handlers.phone_numbers_handler import phone_numbers
+from src.main.server.request_handlers.phone_numbers_handler import numbers
+from src.main.server.request_handlers.news_handler import news
+
 
 app = Flask(__name__)
-app.register_blueprint(phone_numbers, url_prefix='/api/phone_numbers/')
+app.register_blueprint(numbers, url_prefix='/api/numbers/')
+app.register_blueprint(news, url_prefix='/api/news/')
 
 app.config['BASIC_AUTH_USERNAME'] = 'user'
 app.config['BASIC_AUTH_PASSWORD'] = 'gabriel_user'
