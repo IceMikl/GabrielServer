@@ -18,4 +18,5 @@ def get_news_from_sueddeutsche():
     return actual_news_json, 200
 
 
+d3c1be18dd09c7195e369336b6de2f3b7b6f843fbf2fa092190b
 
