@@ -1,3 +1,8 @@
+import sys
+
+if("/" not in sys.path):
+    sys.path.append("/")
+print(sys.path)
 
 from src.main.server.server import Server
 
