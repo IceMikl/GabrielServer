@@ -1,5 +1,5 @@
 
-from src.main.datasources.tellows_api import TellowsAPI
+from src.main.datasources.numbers.tellows_api import TellowsAPI
 
 
 def test_phone_number(phone_number='07812-1968053101'):

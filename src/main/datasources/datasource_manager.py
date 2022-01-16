@@ -1,7 +1,7 @@
 
-from src.main.datasources.bna_blocked_numbers import BNABlockedNumbers
-from src.main.datasources.bna_given_numbers import BNAGivenNumbers
-from src.main.datasources.tellows_api import TellowsAPI
+from src.main.datasources.numbers.bna_blocked_numbers import BNABlockedNumbers
+from src.main.datasources.numbers.bna_given_numbers import BNAGivenNumbers
+from src.main.datasources.numbers.tellows_api import TellowsAPI
 
 class DatasourceManager:
 
