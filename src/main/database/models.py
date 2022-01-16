@@ -57,3 +57,19 @@ class TellowsNumber(BaseModel.BASE):
                f'complains={self.complains}, country={self.country}, prefix={self.prefix}, ' \
                f'searches={self.searches}, caller_type={self.caller_type}, caller_name={self.caller_name},' \
                f' last_comment={self.last_comment}, deeplink={self.deeplink}, caller_typeid={self.caller_typeid})>'
+
+
+
+
+class AreaCode(BaseModel.BASE):
+    __tablename__ = 'AreaCode'
+
+    id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
+    code = Column(Integer)
+    place_name = Column(String)
+    activ = Column(Integer)
+    country = Column(String)
+
+    def __repr__(self):
+        return f'<AreaCode(id={self.id}, code={self.code}, place_name={self.place_name}, ' \
+               f'activ={self.activ}, country={self.country})>'

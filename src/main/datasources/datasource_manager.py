@@ -4,6 +4,8 @@ from src.main.datasources.numbers.bna_given_numbers import BNAGivenNumbers
 from src.main.datasources.numbers.tellows_api import TellowsAPI
 from src.main.datasources.news.sueddeutsche_news_api import SueddeutscheNewsApi
 from src.main.datasources.news.faz_news_api import FazNewsApi
+from src.main.datasources.area_codes.bna_germany_area_codes import BNAGermanyAreaCodes
+
 
 class DatasourceManager:
 
@@ -34,3 +36,8 @@ class DatasourceManager:
     def get_faz_news(self, make_request=False):
         faz_news = FazNewsApi()
         return faz_news.get_news(make_request=make_request)
+
+
+    def get_bna_germany_area_codes(self, parse_csv_file=False):
+        bna_germany_area_codes = BNAGermanyAreaCodes()
+        return bna_germany_area_codes.get_area_codes(parse_csv_file=parse_csv_file)

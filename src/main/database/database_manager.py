@@ -9,7 +9,7 @@ from sqlalchemy import create_engine, and_
 from sqlalchemy.orm import Session
 
 import src.main.database.models as db_models
-from src.main.database.models import BlockedNumber, TellowsNumber, GivenNumberBlock
+from src.main.database.models import BlockedNumber, TellowsNumber, GivenNumberBlock, AreaCode
 
 from src.main.datasources.datasource_manager import DatasourceManager
 
@@ -164,5 +164,32 @@ class DatabaseManager:
 
 
 
+    def add_germany_area_codes(self, parse_csv_file=False):
+        start_time = time.time()
+        area_codes = self.datasource_manager.get_bna_germany_area_codes(parse_csv_file=parse_csv_file)
+        for area_code in area_codes:
+            self.put_area_code(area_code_json=area_code)
+        print(
+            f'[INFO] Given Bundesnetzagentur Germany area codes were added to database in {time.time() - start_time} seconds')
 
 
+
+    def put_area_code(self, area_code_json):
+        start_time = time.time()
+        db_session = self.create_db_session()
+        area_codes_to_add = []
+
+        area_code = int(area_code_json['area_code'])
+        place_name = area_code_json['place_name']
+        activ = int(area_code_json['activ'])
+        country = area_code_json['country']
+
+        area_code_object = db_session.query(AreaCode).filter(
+            AreaCode.code == area_code
+        ).first()
+        if(area_code_object == None):
+            new_area_code = AreaCode(code=area_code, place_name=place_name, activ=activ, country=country)
+            area_codes_to_add.append(new_area_code)
+        db_session.add_all(area_codes_to_add)
+        db_session.commit()
+        db_session.close()
