@@ -45,7 +45,7 @@ class DatabaseManager:
             self.engine = create_engine(config.DB_CONNECTION_URI, executemany_mode='values')
             print("[INFO] Connection to Postgres database was established successfully!")
         except Exception as e:
-            print(f'[INFO] Retry to connect in 5 seconds, attempt # {attempt}')
+            print(f'[INFO] Retry to connect in 5 seconds, attempt # {attempt}, \n An exception occurred: {e} \n')
             time.sleep(5.0)
             attempt += 1
             self.connect_to_database(attempt)
