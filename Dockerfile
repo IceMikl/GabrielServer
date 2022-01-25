@@ -8,4 +8,4 @@ RUN pip3 install -r requirements.txt
 COPY src ./src
 COPY resources ./resources
 
-CMD ["python3", "src/main/app.py"]
+CMD ["python3", "-u", "src/main/app.py"]
