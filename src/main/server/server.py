@@ -51,11 +51,11 @@ class Server:
 
     def create_database(self, do_scraping=False, parse_csv_file=True):
         database_manager = db_manager.DatabaseManager()
-        #database_manager.add_bna_blocked_numbers(do_scraping=do_scraping)
-        #database_manager.add_bundesnetzagentur_given_numbers(parse_csv_file=parse_csv_file)
-        #database_manager.add_tellowsApi_actual_black_list(make_request=False)
-        #database_manager.add_germany_area_codes(parse_csv_file=True)
-        #self.test_database()
+        database_manager.add_bna_blocked_numbers(do_scraping=do_scraping)
+        database_manager.add_bundesnetzagentur_given_numbers(parse_csv_file=parse_csv_file)
+        database_manager.add_tellowsApi_actual_black_list(make_request=False)
+        database_manager.add_germany_area_codes(parse_csv_file=True)
+        self.test_database()
 
 
     def test_database(self):
