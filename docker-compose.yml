@@ -3,7 +3,8 @@ services:
 
   server:
     build: .
-    container_name: multiple_containers_server
+    #image: icemikl/gabriel_server:latest
+    container_name: gabriel_server
     depends_on:
       - postgres_db
       - adminer
