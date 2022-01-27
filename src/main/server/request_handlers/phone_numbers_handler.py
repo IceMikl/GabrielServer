@@ -12,6 +12,78 @@ numbers = Blueprint('numbers', __name__)
 
 @numbers.route('/check/<string:phone_number>', methods=['GET'])
 def check_phone_number(phone_number):
+    """Endpoint checking a phone number
+        This endpoint checks provided phone number <phone_number> and returns a JSON response with scores and information about phone number
+        ---
+        parameters:
+          - name: phone_number
+            in: path
+            type: string
+            required: true
+            default: none
+        definitions:
+            PhoneNumberInformation:
+                type: object
+                properties:
+                    area_code:
+                        $ref: '#/definitions/AreaCode'
+                    block_number:
+                        $ref: '#/definitions/BlockNumber'
+                    tellows_number:
+                        $ref: '#/definitions/TellowsNumber'
+            AreaCode:
+                type: object
+                properties:
+                    description:
+                        type: string
+                    national_number:
+                        type: integer
+                    phone_number:
+                        type: string
+            BlockNumber:
+                type: object
+                properties:
+                    description:
+                        type: array
+                    items:
+                        type: string
+                    phone_number:
+                        type: array
+                    items:
+                        type: string
+                    suspicious:
+                        type: integer
+            TellowsNumber:
+                type: object
+                properties:
+                    description:
+                        type: string
+                    national_number:
+                        type: integer
+                    phone_number:
+                        type: string
+        responses:
+            200:
+                description: Merged information about phone number gained from different sources.
+                schema:
+                    $ref: '#/definitions/PhoneNumberInformation'
+                examples:
+                    object:
+                        area_code:
+                            description: 'Area code not found'
+                            national_number: 614000906
+                            phone_number: '00212614000906'
+                        block_number:
+                            description: ['Bundesnetzagentur hat diese Nummer blockiert, Hacking / Schadsoftware']
+                            phone_number: ['00212614000906']
+                            suspicious: 9
+                        tellows_number:
+                            description: 'Tellows number was not found'
+                            national_number: 614000906
+                            phone_number: '00212614000906'
+
+
+        """
     db_session = create_db_session()
     phone_number_information = parse_phone_number(phone_number=phone_number)
 

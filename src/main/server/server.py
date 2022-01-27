@@ -6,6 +6,8 @@ print(sys.path)
 
 import datetime
 
+from flasgger import Swagger
+
 from flask import Flask, request
 from flask_basicauth import BasicAuth
 
@@ -22,8 +24,31 @@ from src.main.server.request_handlers.area_codes_handler import area_codes
 
 class Server:
 
+    swagger_template = {
+        "swagger": "2.0",
+        "info": {
+            "title": "Gabriel Server API",
+            "description": "API for Gabriel server",
+            "contact": {
+                "responsibleOrganization": "Gabriel",
+                "responsibleDeveloper": "Gabriel team",
+                "email": "info@gabriel-schutz.de",
+                "url": "https://gabriel-schutz.de/#",
+            },
+            "termsOfService": "https://gabriel-schutz.de/impressum",
+            "version": "0.0.1"
+        },
+        "host": "mysite.com",  # overrides localhost:500
+        "basePath": "/apidocs",  # base bash for blueprint registration
+        "schemes": [
+            "http",
+            "https"
+        ],
+        "operationId": "getmyData"
+    }
 
     app = Flask(__name__)
+    swagger = Swagger(app, template=swagger_template)
 
     def __init__(self):
         self.initialize()
@@ -44,9 +69,6 @@ class Server:
     def start(self):
         self.create_database(do_scraping=False, parse_csv_file=False)
         self.app.run(debug=True, use_reloader=False, port=8080, host="0.0.0.0")
-
-
-
 
 
     def create_database(self, do_scraping=False, parse_csv_file=True):
@@ -74,7 +96,7 @@ app = Server.app
 def before_each_request():
     add_request()
     if get_number_of_requests() > 100:
-        return 'Exceed number of requests', 403
+        return f'Exceed number of requests: {get_number_of_requests()}', 403
 
 
 

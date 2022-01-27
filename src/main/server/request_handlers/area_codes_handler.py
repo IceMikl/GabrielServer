@@ -10,6 +10,40 @@ area_codes = Blueprint('area_codes', __name__)
 
 @area_codes.route('/get/<string:area_code>', methods=['GET'])
 def check_area_code(area_code):
+    """Endpoint to get information about area codes
+        This endpoint get information about area code
+        ---
+        parameters:
+          - name: area_code
+            in: path
+            type: string
+            required: true
+            default: none
+        definitions:
+            AreaCodeObj:
+                type: object
+                properties:
+                    area_code:
+                        type: string
+                    description:
+                        $ref: '#/definitions/DescriptionOfAreaCode'
+                    valid:
+                        type: string
+            DescriptionOfAreaCode:
+                type: object
+                properties:
+                    activ:
+                        type: string
+                    country:
+                        type: string
+                    place_name:
+                        type: string
+        responses:
+            200:
+                description: Returns information about area code
+                schema:
+                    $ref: '#/definitions/AreaCodeObj'
+    """
     area_code_information = handle_area_code(area_code)
     return area_code_information, 200
 
