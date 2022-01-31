@@ -7,8 +7,8 @@ from db_manager.src.main.config import config
 class BNAGivenNumbers:
 
     PATH_TO_CSV_FILE = config.PATH_TO_RESOURCES_FOLDER + 'bundesnetzagentur_given_number_blocks.csv'
-    #PATH_TO_JSON_FILE = config.PATH_TO_RESOURCES_FOLDER + 'bundesnetzagentur_given_number_blocks.json'
-    PATH_TO_JSON_FILE = config.PATH_TO_RESOURCES_FOLDER + 'bundesnetzagentur_given_number_blocks_test.json'
+    PATH_TO_JSON_FILE = config.PATH_TO_RESOURCES_FOLDER + 'bundesnetzagentur_given_number_blocks.json'
+    #PATH_TO_JSON_FILE = config.PATH_TO_RESOURCES_FOLDER + 'bundesnetzagentur_given_number_blocks_test.json'
 
     def __init__(self):
         pass
