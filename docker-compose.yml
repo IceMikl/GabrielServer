@@ -1,18 +1,46 @@
 version: '3.3'
 services:
 
-  server:
-    build: .
-    #image: icemikl/gabriel_server:latest
-    container_name: gabriel_server
+  gabriel_request_handler:
+    build: request_handler/
+    #image: icemikl/gabriel_request_handler:latest
+    container_name: gabriel_request_handler_container
     depends_on:
       - postgres_db
       - adminer
     restart: always
     ports:
-    - 8080:8080
-    env_file:
-      - .env
+      - 8080:8080
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_HOST=postgres_db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=postgres_db
+      - BASIC_AUTH_USERNAME=user
+      - BASIC_AUTH_PASSWORD=gabriel_user
+      - BASIC_AUTH_FORCE=True
+
+
+  gabriel_db_manager:
+    build: db_manager/
+    #image: icemikl/gabriel_db_manager:latest
+    container_name: gabriel_db_manager_container
+    depends_on:
+      - postgres_db
+      - adminer
+    restart: always
+    ports:
+    - 8087:8087
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_HOST=postgres_db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=postgres_db
+      - BASIC_AUTH_USERNAME=user
+      - BASIC_AUTH_PASSWORD=gabriel_user
+      - BASIC_AUTH_FORCE=True
 
 
   postgres_db:

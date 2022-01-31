@@ -1,0 +1,13 @@
+
+Flask==1.1.2
+Jinja2==2.11.2
+
+Werkzeug==1.0.1
+Scrapy
+psycopg2-binary
+SQLAlchemy==1.4.29
+phonenumbers==8.12.40
+requests==2.27.0
+Flask-BasicAuth==0.2.0
+xmltodict==0.12.0
+flasgger==0.9.5
