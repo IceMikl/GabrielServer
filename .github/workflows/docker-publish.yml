@@ -32,7 +32,7 @@ jobs:
         run: docker push icemikl/request_handler:${{steps.vars.outputs.tag}}
 
       - name: Build the latest Docker image
-        run: docker build . --file Dockerfile --tag icemikl/request_handler:latest
+        run: docker build . --file request_handler/Dockerfile --tag icemikl/request_handler:latest
 
       - name: Push the latest Docker image
         run: docker push icemikl/request_handler:latest
@@ -58,7 +58,7 @@ jobs:
         run: docker push icemikl/gabriel_db:${{steps.vars.outputs.tag}}
 
       - name: Build the latest Docker image
-        run: docker build . --file Dockerfile --tag icemikl/gabriel_db:latest
+        run: docker build . --file gabriel_db/Dockerfile --tag icemikl/gabriel_db:latest
 
       - name: Push the latest Docker image
         run: docker push icemikl/gabriel_db:latest
@@ -84,7 +84,7 @@ jobs:
         run: docker push icemikl/db_manager:${{steps.vars.outputs.tag}}
 
       - name: Build the latest Docker image
-        run: docker build . --file Dockerfile --tag icemikl/db_manager:latest
+        run: docker build . --file db_manager/Dockerfile --tag icemikl/db_manager:latest
 
       - name: Push the latest Docker image
         run: docker push icemikl/db_manager:latest
