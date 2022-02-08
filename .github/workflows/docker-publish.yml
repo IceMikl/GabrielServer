@@ -63,6 +63,7 @@ jobs:
       - name: Push the latest Docker image
         run: docker push icemikl/gabriel_db:latest
 
+
   build_and_push_db_manager:
     runs-on: ubuntu-latest
 
