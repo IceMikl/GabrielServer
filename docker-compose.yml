@@ -2,8 +2,8 @@ version: '3.3'
 services:
 
   gabriel_request_handler:
-    #build: request_handler/
-    image: icemikl/request_handler:latest
+    build: request_handler/
+    #image: icemikl/request_handler:latest
     container_name: request_handler_container
     depends_on:
       - gabriel_db
@@ -23,8 +23,8 @@ services:
 
 
   gabriel_db_manager:
-    #build: db_manager/
-    image: icemikl/db_manager:latest
+    build: db_manager/
+    #image: icemikl/db_manager:latest
     container_name: db_manager_container
     depends_on:
       - gabriel_db
@@ -44,14 +44,14 @@ services:
 
 
   gabriel_db:
-    #build: gabriel_db/
-    image: icemikl/gabriel_db:latest
+    build: gabriel_db/
+    #image: icemikl/gabriel_db:latest
     container_name: gabriel_db_container
     restart: always
     ports:
       - 5432:5432
-    volumes:
-      - $HOME/docker/volumes/postgres:/var/lib/postgresql/data
+    #volumes:
+    #  - $HOME/docker/volumes/postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=password
