@@ -12,7 +12,7 @@ env:
 
 
 jobs:
-  build:
+  build_and_push_request_handler:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,13 +26,64 @@ jobs:
         run: echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
 
       - name: Build the tagged Docker image
-        run: docker build . --file Dockerfile --tag icemikl/gabriel_server:${{steps.vars.outputs.tag}}
+        run: docker build . --file request_handler/Dockerfile --tag icemikl/request_handler:${{steps.vars.outputs.tag}}
 
       - name: Push the tagged Docker image
-        run: docker push icemikl/gabriel_server:${{steps.vars.outputs.tag}}
+        run: docker push icemikl/request_handler:${{steps.vars.outputs.tag}}
 
       - name: Build the latest Docker image
-        run: docker build . --file Dockerfile --tag icemikl/gabriel_server:latest
+        run: docker build . --file Dockerfile --tag icemikl/request_handler:latest
 
       - name: Push the latest Docker image
-        run: docker push icemikl/gabriel_server:latest
+        run: docker push icemikl/request_handler:latest
+
+
+  build_and_push_gabriel_db:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Login to DockerHub Registry
+        run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+      - name: Get the version
+        id: vars
+        run: echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
+
+      - name: Build the tagged Docker image
+        run: docker build . --file gabriel_db/Dockerfile --tag icemikl/gabriel_db:${{steps.vars.outputs.tag}}
+
+      - name: Push the tagged Docker image
+        run: docker push icemikl/gabriel_db:${{steps.vars.outputs.tag}}
+
+      - name: Build the latest Docker image
+        run: docker build . --file Dockerfile --tag icemikl/gabriel_db:latest
+
+      - name: Push the latest Docker image
+        run: docker push icemikl/gabriel_db:latest
+
+  build_and_push_db_manager:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Login to DockerHub Registry
+        run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+      - name: Get the version
+        id: vars
+        run: echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
+
+      - name: Build the tagged Docker image
+        run: docker build . --file db_manager/Dockerfile --tag icemikl/db_manager:${{steps.vars.outputs.tag}}
+
+      - name: Push the tagged Docker image
+        run: docker push icemikl/db_manager:${{steps.vars.outputs.tag}}
+
+      - name: Build the latest Docker image
+        run: docker build . --file Dockerfile --tag icemikl/db_manager:latest
+
+      - name: Push the latest Docker image
+        run: docker push icemikl/db_manager:latest
