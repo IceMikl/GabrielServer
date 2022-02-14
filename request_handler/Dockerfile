@@ -3,6 +3,8 @@ FROM python:3.8-slim-buster
 
 WORKDIR /request_handler
 
+RUN ls
+
 COPY requirements.txt request_handler/requirements.txt
 COPY src/ request_handler/src/
 COPY resources/ request_handler/resources/
