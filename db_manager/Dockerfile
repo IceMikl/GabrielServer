@@ -1,6 +1,8 @@
 
 FROM python:3.8-slim-buster
 
+WORKDIR /db_manager
+
 COPY requirements.txt db_manager/requirements.txt
 COPY src/ db_manager/src/
 COPY resources/ db_manager/resources/
