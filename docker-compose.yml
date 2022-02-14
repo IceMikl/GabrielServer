@@ -2,11 +2,13 @@ version: '3.3'
 services:
 
   gabriel_request_handler:
-    image: icemikl/request_handler:latest
+    #image: icemikl/request_handler:latest
+    build: request_handler/
     container_name: request_handler_container
     depends_on:
       - gabriel_db
       - adminer
+      - gabriel_db_manager
     restart: always
     ports:
       - 8080:8080
@@ -22,7 +24,8 @@ services:
 
 
   gabriel_db_manager:
-    image: icemikl/db_manager:latest
+    #image: icemikl/db_manager:latest
+    build: db_manager/
     container_name: db_manager_container
     depends_on:
       - gabriel_db
@@ -42,7 +45,8 @@ services:
 
 
   gabriel_db:
-    image: icemikl/gabriel_db:latest
+    #image: icemikl/gabriel_db:latest
+    build: gabriel_db/
     container_name: gabriel_db_container
     restart: always
     ports:
