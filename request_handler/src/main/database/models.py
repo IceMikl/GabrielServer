@@ -1,9 +1,28 @@
 from sqlalchemy.orm import declarative_base
-from sqlalchemy import Column, Integer, String, Sequence
+from sqlalchemy import Column, Integer, String, Sequence, Boolean, ForeignKey
 
 
 class BaseModel:
     BASE = declarative_base()
+
+
+
+class UniqueNumber(BaseModel.BASE):
+    __tablename__ = 'UNIQUE_NUMBER'
+
+    id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
+    plus = Column(Boolean)
+    country_code = Column(String)
+    national_destination_code = Column(String)
+    phone_number = Column(String)
+    string_representation_full = Column(String)
+    string_representation_local = Column(String)
+
+    def __repr__(self):
+        return f'<UniqueNumber(id={self.id}, plus={self.plus}, country_code={self.country_code}, ' \
+               f'national_destination_code={self.national_destination_code}, phone_number={self.phone_number}, ' \
+               f'string_representation_full={self.string_representation_full}, ' \
+               f'string_representation_local={self.string_representation_local})>'
 
 
 
