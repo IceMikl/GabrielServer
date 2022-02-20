@@ -9,7 +9,7 @@ from db_manager.src.main.server.server import Server
 
 if __name__ == "__main__":
     server = Server()
-    server.start()
+    server.start(develop_mode=True)
 
 
 

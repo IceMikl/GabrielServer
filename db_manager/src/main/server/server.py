@@ -57,15 +57,15 @@ class Server:
         BasicAuth(self.app)
 
 
-    def start(self):
-        self.create_database(do_scraping=False, parse_csv_file=False)
+    def start(self, develop_mode=False):
+        self.create_database(do_scraping=False, parse_csv_file=False, develop_mode=develop_mode)
         self.app.run(debug=True, use_reloader=False, port=8087, host="0.0.0.0")
 
 
-    def create_database(self, do_scraping=False, parse_csv_file=True):
+    def create_database(self, do_scraping=False, parse_csv_file=True, develop_mode=False):
         database_manager = db_manager.DatabaseManager()
         database_manager.add_bna_blocked_numbers(do_scraping=do_scraping)
-        database_manager.add_bundesnetzagentur_given_numbers(parse_csv_file=parse_csv_file)
+        database_manager.add_bundesnetzagentur_given_numbers(parse_csv_file=parse_csv_file, develop_mode=develop_mode)
         database_manager.add_tellowsApi_actual_black_list(make_request=False)
         database_manager.add_germany_area_codes(parse_csv_file=True)
         self.test_database()
