@@ -87,10 +87,10 @@ class DatabaseManager:
 
 
 
-    def add_bundesnetzagentur_given_numbers(self, parse_csv_file, develop_mode):
+    def add_bundesnetzagentur_given_numbers(self, parse_csv_file, deploy_mode):
         start_time = time.time()
         given_numbers = self.datasource_manager.get_data_from_bundesnetzagentur_given_numbers(parse_csv_file=parse_csv_file,
-                                                                                              develop_mode=develop_mode)
+                                                                                              deploy_mode=deploy_mode)
         for number_block_json in given_numbers:
             self.put_number_block(number_block_json=number_block_json)
         print(f'[INFO] Given number block from Bundesnetzagentur were added to database in {time.time() - start_time} seconds')

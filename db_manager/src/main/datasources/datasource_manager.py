@@ -18,9 +18,9 @@ class DatasourceManager:
         return bna_block_numbers.get_latest_data(do_scraping)
 
 
-    def get_data_from_bundesnetzagentur_given_numbers(self, parse_csv_file, develop_mode):
+    def get_data_from_bundesnetzagentur_given_numbers(self, parse_csv_file, deploy_mode):
         bna_given_numbers = BNAGivenNumbers()
-        return bna_given_numbers.parse_given_number_blocks(parse_csv_file=parse_csv_file, develop_mode=develop_mode)
+        return bna_given_numbers.parse_given_number_blocks(parse_csv_file=parse_csv_file, deploy_mode=deploy_mode)
 
 
     def get_tellows_actual_black_list(self, make_request=False):

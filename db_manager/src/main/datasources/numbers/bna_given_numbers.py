@@ -14,10 +14,10 @@ class BNAGivenNumbers:
         pass
 
 
-    def parse_given_number_blocks(self, parse_csv_file, develop_mode):
+    def parse_given_number_blocks(self, parse_csv_file, deploy_mode):
         if(parse_csv_file):
             self.parse_csv_file()
-        return self.read_json_file(develop_mode)
+        return self.read_json_file(deploy_mode)
 
 
     def parse_csv_file(self):
@@ -51,14 +51,14 @@ class BNAGivenNumbers:
             f.close()
 
 
-    def read_json_file(self, develop_mode):
+    def read_json_file(self, deploy_mode):
         data = {}
-        if(develop_mode):
-            with open(self.PATH_TO_TEST_JSON_FILE, 'r') as f:
+        if(deploy_mode):
+            with open(self.PATH_TO_JSON_FILE, 'r') as f:
                 data = json.load(f)
                 f.close()
         else:
-            with open(self.PATH_TO_JSON_FILE, 'r') as f:
+            with open(self.PATH_TO_TEST_JSON_FILE, 'r') as f:
                 data = json.load(f)
                 f.close()
         return data

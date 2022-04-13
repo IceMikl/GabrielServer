@@ -9,7 +9,7 @@ from db_manager.src.main.server.server import Server
 
 if __name__ == "__main__":
     server = Server()
-    server.start(develop_mode=True)
+    server.start(deploy_mode=False, do_scraping=True, parse_csv_file=True)
 
 
 
